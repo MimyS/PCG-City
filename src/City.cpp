@@ -11,15 +11,11 @@ void drawScene(){
 
 	glClearColor(173/255.0, 213/255.0, 247/255.0, 1.0f);
 
-	LightClass light(0.0f, 0.0f, 30.0f);
-
-	light.ambient_light();
-
-	light.lighting();
+	LightClass light(4.0f, 4.0f, 5.0f);
 
 	Vertex2D position = {2.0f, 2.0f};
 
-	HousesClass c1(position, "../Texture/BuildingFloor.jpg",  "../Texture/BuildingWall.jpg");
+	HousesClass c1(position, "../Texture/HouseWall.jpg");
 	c1.draw();
 
 	position = {-2.0f, -2.0f};
@@ -29,36 +25,51 @@ void drawScene(){
 
 	position = {0.0f, 0.0f};
 
-	BuildingsClass<true, false> p2(position, 15.0f, "../Texture/BuildingWall.jpg");
+	BuildingsClass<true, false> p2(position, 12.0f, "../Texture/BuildingWall.jpg");
 	p2.draw();
+
+	position = {2.0f, -2.0f};
+
+	BuildingsClass<false, true> p3(position, 7.0f, "../Texture/BuildingWall10.jpg");
+	p3.draw();
 
 	drawCityFloor();
 	drawLandscape();
+
+	light.ambient_light();
+
+	light.lighting();
 
 	glutSwapBuffers();
 }
 
 void drawCityFloor(){
-	string floorTexture = "./Texture/CityFloor.jpg";
 	glPushMatrix();
-	//Mat img = imread(landscapeTexture);
-	//flip(img, img, 0);
-	// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 32, 32, 0, GL_RGBA, GL_UNSIGNED_BYTE, matrixTex);
+
+	string floorTexture = "../Texture/CityFloor.jpg";
+	Mat img = imread(floorTexture);
+	flip(img, img, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 
 	// glColor3f(1.0f,0.0f,0.0f);
-	// glEnable(GL_TEXTURE_2D);
-	// glBegin(GL_QUADS);
-	//     glTexCoord2f(0.0, 1.0); glVertex2d(-0.5, 0.5);
-	//     glTexCoord2f(0.0, 0.0); glVertex2d(-0.5, -0.5);
-	//     glTexCoord2f(1.0, 0.0); glVertex2d(0.5, -0.5);
-	//     glTexCoord2f(1.0, 1.0); glVertex2d(0.5, 0.5);
-	// glEnd();
-	// glDisable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_2D);
+	glBegin(GL_QUADS);
+	    glTexCoord2f(0.0, 10.0); glVertex2d(-10.0, 10.0);
+	    glTexCoord2f(0.0, 0.0); glVertex2d(-10.0, -10.0);
+	    glTexCoord2f(10.0, 0.0); glVertex2d(10.0, -10.0);
+	    glTexCoord2f(10.0, 10.0); glVertex2d(10.0, 10.0);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
 
 void drawLandscape(){
-	string landscapeTexture = "./Texture/Landscape.jpg";
+	string landscapeTexture = "../Texture/Landscape.jpg";
 	glPushMatrix();
 	//Mat img = imread(landscapeTexture);
 	//flip(img, img, 0);

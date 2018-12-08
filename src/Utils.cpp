@@ -1,4 +1,4 @@
-	#include "Utils.hpp"
+#include "Utils.hpp"
 
 /* GLOBAL */
 Cell gaussian[SIZE_GAUSSIAN + 2][SIZE_GAUSSIAN + 2];

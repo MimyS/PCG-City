@@ -2,11 +2,13 @@
 
 #include <GL/glut.h>
 #include <math.h>
-#include<opencv2/opencv.hpp>
+#include <opencv2/opencv.hpp>
 #include <string>
 #include <vector>
-#include<iostream>
-#include<utility>
+#include <iostream>
+#include <utility>
+#include <ctype.h>
+
 const double pi = 3.1415926535897; 
 using namespace std;
 using namespace cv;

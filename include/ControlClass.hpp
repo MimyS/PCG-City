@@ -6,9 +6,7 @@
 using namespace std;
 
 class ControlClass {
-	int lstX;
-	int lstY;
-
+	bool ProgramStart = false;
 public:
 	void keyboard(unsigned char, int, int, ViewClass &);
 	void keyboard_special(int, int, int, ViewClass &);

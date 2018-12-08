@@ -44,47 +44,47 @@ void ViewClass::windowReshape(GLsizei w, GLsizei h){
 	VisParamSpecify();
 }
 
-void ViewClass::MoveCenterX(int val){
+void ViewClass::MoveCenterX(GLfloat val){
 	centerX += val * (visAngle / 90.0);
 }
 
-void ViewClass::MoveCenterY(int val){
+void ViewClass::MoveCenterY(GLfloat val){
 	centerY += val * (visAngle / 90.0);
 }
 
-void ViewClass::MoveCenterZ(int val){
+void ViewClass::MoveCenterZ(GLfloat val){
 	centerZ += val;
 }
 
-void ViewClass::MoveCameraX(int val){
+void ViewClass::MoveCameraX(GLfloat val){
 	cameraX += val;
 }
 
-void ViewClass::MoveCameraY(int val){
+void ViewClass::MoveCameraY(GLfloat val){
 	cameraY += val;
 }
 
-void ViewClass::MoveCameraZ(int val){
+void ViewClass::MoveCameraZ(GLfloat val){
 	if (val > 0){
 		cameraZ += val;
 	} else{
-		if ((cameraZ + val) > 0){
+		if ((cameraZ + val) > 0.5){
 			cameraZ += val;
 		} else{
-			cameraZ = 0;
+			cameraZ = 0.5;
 		}
 	}
 }
 
-void ViewClass::MoveViewUpX(int val){
+void ViewClass::MoveViewUpX(GLfloat val){
 	viewUpX += val;
 }
 
-void ViewClass::MoveViewUpY(int val){
+void ViewClass::MoveViewUpY(GLfloat val){
 	viewUpY += val;
 }
 
-void ViewClass::MoveViewUpZ(int val){
+void ViewClass::MoveViewUpZ(GLfloat val){
 	viewUpZ += val;
 }
 
@@ -121,7 +121,7 @@ void ViewClass::ResetCamera(){
 void ViewClass::ResetAll(){
 	cameraX = 0;
 	cameraY = 0;
-	cameraZ = 50;
+	cameraZ = 40;
 	centerX = 0;
 	centerY = 0;
 	centerZ = 0;
