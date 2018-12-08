@@ -38,13 +38,7 @@ void BuildingsClass<isTransparent, isMirror>::drawFloor(){
 	glEnable(GL_TEXTURE_2D);
 	Mat img = imread(floorTexture);
 	flip(img, img, 0);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
-
- 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	SET_TEXTURE_PARAM(img)
 	if(isTransparent){
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
@@ -77,12 +71,7 @@ void BuildingsClass<isTransparent, isMirror>::drawRoof(){
 	glPushMatrix();
 	glEnable(GL_TEXTURE_2D);
 	Mat img = imread(roofTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
-
- 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	SET_TEXTURE_PARAM(img)
 
 	if(isTransparent){
 		glEnable(GL_BLEND);
@@ -116,13 +105,7 @@ void BuildingsClass<isTransparent, isMirror>::drawWalls(){
 	glEnable(GL_TEXTURE_2D);
 	Mat img = imread(wallTexture);
 	rotate(img, img, ROTATE_180);
-	
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
-
- 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	SET_TEXTURE_PARAM(img)
 
 	if(isTransparent){
 		glEnable(GL_BLEND);

@@ -25,13 +25,7 @@ void HousesClass::drawFloor(){
 	glEnable(GL_TEXTURE_2D);
 	Mat img = imread(floorTexture);
 	flip(img, img, 0);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
-
- 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	SET_TEXTURE_PARAM(img)
 
 	glTranslated(position.x-0.5f, position.y-0.5f, 0.05f);
 	glBegin(GL_QUADS);
@@ -49,12 +43,7 @@ void HousesClass::drawRoof(){
     glEnable(GL_TEXTURE_2D);
 	Mat img = imread(roofTexture);
 	flip(img, img, 0);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
-
- 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	SET_TEXTURE_PARAM(img)
 
 	glPushMatrix();
 	{
@@ -76,12 +65,7 @@ void HousesClass::drawRoof(){
 	glPopMatrix();
 	
 	rotate(img, img, ROTATE_90_CLOCKWISE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
-
- 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	SET_TEXTURE_PARAM(img)
 
 	glPushMatrix();
 	{
@@ -105,11 +89,7 @@ void HousesClass::drawWalls(){
     glEnable(GL_TEXTURE_2D);
 	Mat img = imread(houseTexture);
 	rotate(img, img, ROTATE_180);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
- 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	SET_TEXTURE_PARAM(img)
 
 	glPushMatrix();
 	{
@@ -150,13 +130,7 @@ void HousesClass::drawGrass(){
 	glEnable(GL_TEXTURE_2D);
 	Mat img = imread(grassTexture);
 	flip(img, img, 0);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
-
- 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	SET_TEXTURE_PARAM(img)
 
 	glTranslated(position.x-0.75f, position.y-0.75f, 0.025f);
 	glBegin(GL_QUADS);

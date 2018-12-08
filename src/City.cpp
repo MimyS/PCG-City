@@ -48,12 +48,7 @@ void drawCityFloor(){
 	string floorTexture = "../Texture/CityFloor.jpg";
 	Mat img = imread(floorTexture);
 	flip(img, img, 0);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
-
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	SET_TEXTURE_PARAM(img)
 
 	// glColor3f(1.0f,0.0f,0.0f);
 	glEnable(GL_TEXTURE_2D);
@@ -68,42 +63,111 @@ void drawCityFloor(){
 }
 
 void drawLandscape(){
-	string landscapeTexture = "../Texture/Landscape.jpg";
+	string landscapeTexture = "../Texture/skybox3";
+	Mat img = imread(landscapeTexture+"-down.jpg");
+	flip(img, img, 0);
+	SET_TEXTURE_PARAM(img)
+
 	glPushMatrix();
-	//Mat img = imread(landscapeTexture);
-	//flip(img, img, 0);
-	//glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, img.cols, img.rows, 1, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
-
-	// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 32, 32, 0, GL_RGBA, GL_UNSIGNED_BYTE, matrixTex);
-	//glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
-
-	// glColor3f(1.0f,0.0f,0.0f);
-	// glEnable(GL_TEXTURE_2D);
-	// glBegin(GL_QUADS);
-	//     glTexCoord2f(0.0, 1.0); glVertex2d(-0.5, 0.5);
-	//     glTexCoord2f(0.0, 0.0); glVertex2d(-0.5, -0.5);
-	//     glTexCoord2f(1.0, 0.0); glVertex2d(0.5, -0.5);
-	//     glTexCoord2f(1.0, 1.0); glVertex2d(0.5, 0.5);
-	// glEnd();
-	// glDisable(GL_TEXTURE_2D);
-
-	//glPushMatrix();
-	//glEnable(GL_TEXTURE_3D);
-
-	//GLUquadric * quadObj = gluNewQuadric();
-	//gluQuadricDrawStyle(quadObj, GLU_FILL);
-	//gluQuadricNormals(quadObj, GLU_SMOOTH);
-	//gluQuadricTexture(quadObj, GL_TRUE);
-	//gluSphere(quadObj, 1.5f, 100, 100);
-	//gluDeleteQuadric(quadObj);
-
-	//glDisable(GL_TEXTURE_3D);
+	{
+		glEnable(GL_TEXTURE_2D);
+		glBegin(GL_QUADS);
+			glTexCoord2d(0.0, 1.0); glVertex3d(-25,  25, -0.01);
+			glTexCoord2d(0.0, 0.0); glVertex3d(-25, -25, -0.01);
+			glTexCoord2d(1.0, 0.0); glVertex3d( 25, -25, -0.01);
+			glTexCoord2d(1.0, 1.0); glVertex3d( 25,  25, -0.01);
+		glEnd();
+		glDisable(GL_TEXTURE_2D);
+	}
 	glPopMatrix();
+
+	img = imread(landscapeTexture+"-up.jpg");
+	flip(img, img, 0);
+	SET_TEXTURE_PARAM(img)
+
+	glPushMatrix();
+	{
+		glEnable(GL_TEXTURE_2D);
+		glBegin(GL_QUADS);
+			glTexCoord2d(0.0, 1.0); glVertex3d(-25,  25, 50);
+			glTexCoord2d(0.0, 0.0); glVertex3d(-25, -25, 50);
+			glTexCoord2d(1.0, 0.0); glVertex3d( 25, -25, 50);
+			glTexCoord2d(1.0, 1.0); glVertex3d( 25,  25, 50);
+		glEnd();
+		glDisable(GL_TEXTURE_2D);
+	}
+	glPopMatrix();
+
+	img = imread(landscapeTexture+"-side4.jpg");
+	flip(img, img, 0);
+	flip(img, img, 1);
+	SET_TEXTURE_PARAM(img)
+
+	glPushMatrix();
+	{
+		glEnable(GL_TEXTURE_2D);
+		glBegin(GL_QUADS);
+			glTexCoord2d(0.0, 1.0); glVertex3d(-25, 25,  50);
+			glTexCoord2d(0.0, 0.0); glVertex3d(-25, 25, -0.01);
+			glTexCoord2d(1.0, 0.0); glVertex3d( 25, 25, -0.01);
+			glTexCoord2d(1.0, 1.0); glVertex3d( 25, 25,  50);
+		glEnd();
+		glDisable(GL_TEXTURE_2D);
+	}
+	glPopMatrix();
+
+	img = imread(landscapeTexture+"-side3.jpg");
+	flip(img, img, 0);
+	SET_TEXTURE_PARAM(img)
+
+	glPushMatrix();
+	{
+		glEnable(GL_TEXTURE_2D);
+		glBegin(GL_QUADS);
+			glTexCoord2d(0.0, 1.0); glVertex3d( 25, -25,  50);
+			glTexCoord2d(0.0, 0.0); glVertex3d( 25, -25, -0.01);
+			glTexCoord2d(1.0, 0.0); glVertex3d( 25,  25, -0.01);
+			glTexCoord2d(1.0, 1.0); glVertex3d( 25,  25,  50);
+		glEnd();
+		glDisable(GL_TEXTURE_2D);
+	}
+	glPopMatrix();
+
+	img = imread(landscapeTexture+"-side2.jpg");
+	flip(img, img, 0);
+	SET_TEXTURE_PARAM(img)
+
+	glPushMatrix();
+	{
+		glEnable(GL_TEXTURE_2D);
+		glBegin(GL_QUADS);
+			glTexCoord2d(0.0, 1.0); glVertex3d(-25, -25,  50);
+			glTexCoord2d(0.0, 0.0); glVertex3d(-25, -25, -0.01);
+			glTexCoord2d(1.0, 0.0); glVertex3d( 25, -25, -0.01);
+			glTexCoord2d(1.0, 1.0); glVertex3d( 25, -25,  50);
+		glEnd();
+		glDisable(GL_TEXTURE_2D);
+	}
+	glPopMatrix();
+
+	img = imread(landscapeTexture+"-side1.jpg");
+	flip(img, img, 0);
+	flip(img, img, 1);
+	SET_TEXTURE_PARAM(img)
+
+	glPushMatrix();
+	{
+		glEnable(GL_TEXTURE_2D);
+		glBegin(GL_QUADS);
+			glTexCoord2d(0.0, 1.0); glVertex3d(-25, -25,  50);
+			glTexCoord2d(0.0, 0.0); glVertex3d(-25, -25, -0.01);
+			glTexCoord2d(1.0, 0.0); glVertex3d(-25,  25, -0.01);
+			glTexCoord2d(1.0, 1.0); glVertex3d(-25,  25,  50);
+		glEnd();
+		glDisable(GL_TEXTURE_2D);
+	}
+	glPopMatrix();
+
 }
 
 void windowReshapeFunc(GLsizei w, GLsizei h){
