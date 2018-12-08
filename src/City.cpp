@@ -1,7 +1,9 @@
 #include "City.hpp"
 
 /**GLOBAL**/
-ViewClass viewC;
+Vertex3D pMin = {-25,-25,-0.01};
+Vertex3D pMax = { 25, 25, 50};
+ViewClass viewC(pMin, pMax);
 ControlClass control;
 LightClass light(-10.0f, -10.0f, 25.0f);
 
@@ -72,10 +74,10 @@ void drawLandscape(){
 	{
 		glEnable(GL_TEXTURE_2D);
 		glBegin(GL_QUADS);
-			glTexCoord2d(0.0, 1.0); glVertex3d(-25,  25, -0.01);
-			glTexCoord2d(0.0, 0.0); glVertex3d(-25, -25, -0.01);
-			glTexCoord2d(1.0, 0.0); glVertex3d( 25, -25, -0.01);
-			glTexCoord2d(1.0, 1.0); glVertex3d( 25,  25, -0.01);
+			glTexCoord2d(0.0, 1.0); glVertex3d(pMin.x, pMax.y, pMin.z);
+			glTexCoord2d(0.0, 0.0); glVertex3d(pMin.x, pMin.y, pMin.z);
+			glTexCoord2d(1.0, 0.0); glVertex3d(pMax.x, pMin.y, pMin.z);
+			glTexCoord2d(1.0, 1.0); glVertex3d(pMax.x, pMax.y, pMin.z);
 		glEnd();
 		glDisable(GL_TEXTURE_2D);
 	}
@@ -89,10 +91,10 @@ void drawLandscape(){
 	{
 		glEnable(GL_TEXTURE_2D);
 		glBegin(GL_QUADS);
-			glTexCoord2d(0.0, 1.0); glVertex3d(-25,  25, 50);
-			glTexCoord2d(0.0, 0.0); glVertex3d(-25, -25, 50);
-			glTexCoord2d(1.0, 0.0); glVertex3d( 25, -25, 50);
-			glTexCoord2d(1.0, 1.0); glVertex3d( 25,  25, 50);
+			glTexCoord2d(0.0, 1.0); glVertex3d(pMin.x, pMax.y, pMax.z);
+			glTexCoord2d(0.0, 0.0); glVertex3d(pMin.x, pMin.y, pMax.z);
+			glTexCoord2d(1.0, 0.0); glVertex3d(pMax.x, pMin.y, pMax.z);
+			glTexCoord2d(1.0, 1.0); glVertex3d(pMax.x, pMax.y, pMax.z);
 		glEnd();
 		glDisable(GL_TEXTURE_2D);
 	}
@@ -107,10 +109,10 @@ void drawLandscape(){
 	{
 		glEnable(GL_TEXTURE_2D);
 		glBegin(GL_QUADS);
-			glTexCoord2d(0.0, 1.0); glVertex3d(-25, 25,  50);
-			glTexCoord2d(0.0, 0.0); glVertex3d(-25, 25, -0.01);
-			glTexCoord2d(1.0, 0.0); glVertex3d( 25, 25, -0.01);
-			glTexCoord2d(1.0, 1.0); glVertex3d( 25, 25,  50);
+			glTexCoord2d(0.0, 1.0); glVertex3d(pMin.x, pMax.y, pMax.z);
+			glTexCoord2d(0.0, 0.0); glVertex3d(pMin.x, pMax.y, pMin.z);
+			glTexCoord2d(1.0, 0.0); glVertex3d(pMax.x, pMax.y, pMin.z);
+			glTexCoord2d(1.0, 1.0); glVertex3d(pMax.x, pMax.y, pMax.z);
 		glEnd();
 		glDisable(GL_TEXTURE_2D);
 	}
@@ -124,10 +126,10 @@ void drawLandscape(){
 	{
 		glEnable(GL_TEXTURE_2D);
 		glBegin(GL_QUADS);
-			glTexCoord2d(0.0, 1.0); glVertex3d( 25, -25,  50);
-			glTexCoord2d(0.0, 0.0); glVertex3d( 25, -25, -0.01);
-			glTexCoord2d(1.0, 0.0); glVertex3d( 25,  25, -0.01);
-			glTexCoord2d(1.0, 1.0); glVertex3d( 25,  25,  50);
+			glTexCoord2d(0.0, 1.0); glVertex3d(pMax.x, pMin.y, pMax.z);
+			glTexCoord2d(0.0, 0.0); glVertex3d(pMax.x, pMin.y, pMin.z);
+			glTexCoord2d(1.0, 0.0); glVertex3d(pMax.x, pMax.y, pMin.z);
+			glTexCoord2d(1.0, 1.0); glVertex3d(pMax.x, pMax.y, pMax.z);
 		glEnd();
 		glDisable(GL_TEXTURE_2D);
 	}
@@ -141,10 +143,10 @@ void drawLandscape(){
 	{
 		glEnable(GL_TEXTURE_2D);
 		glBegin(GL_QUADS);
-			glTexCoord2d(0.0, 1.0); glVertex3d(-25, -25,  50);
-			glTexCoord2d(0.0, 0.0); glVertex3d(-25, -25, -0.01);
-			glTexCoord2d(1.0, 0.0); glVertex3d( 25, -25, -0.01);
-			glTexCoord2d(1.0, 1.0); glVertex3d( 25, -25,  50);
+			glTexCoord2d(0.0, 1.0); glVertex3d(pMin.x, pMin.y, pMax.z);
+			glTexCoord2d(0.0, 0.0); glVertex3d(pMin.x, pMin.y, pMin.z);
+			glTexCoord2d(1.0, 0.0); glVertex3d(pMax.x, pMin.y, pMin.z);
+			glTexCoord2d(1.0, 1.0); glVertex3d(pMax.x, pMin.y, pMax.z);
 		glEnd();
 		glDisable(GL_TEXTURE_2D);
 	}
@@ -159,10 +161,10 @@ void drawLandscape(){
 	{
 		glEnable(GL_TEXTURE_2D);
 		glBegin(GL_QUADS);
-			glTexCoord2d(0.0, 1.0); glVertex3d(-25, -25,  50);
-			glTexCoord2d(0.0, 0.0); glVertex3d(-25, -25, -0.01);
-			glTexCoord2d(1.0, 0.0); glVertex3d(-25,  25, -0.01);
-			glTexCoord2d(1.0, 1.0); glVertex3d(-25,  25,  50);
+			glTexCoord2d(0.0, 1.0); glVertex3d(pMin.x, pMin.y, pMax.z);
+			glTexCoord2d(0.0, 0.0); glVertex3d(pMin.x, pMin.y, pMin.z);
+			glTexCoord2d(1.0, 0.0); glVertex3d(pMin.x, pMax.y, pMin.z);
+			glTexCoord2d(1.0, 1.0); glVertex3d(pMin.x, pMax.y, pMax.z);
 		glEnd();
 		glDisable(GL_TEXTURE_2D);
 	}

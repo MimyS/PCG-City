@@ -2,7 +2,9 @@
 
 using namespace std;
 
-ViewClass::ViewClass(){
+ViewClass::ViewClass(Vertex3D p1, Vertex3D p2){
+	pMin = p1;
+	pMax = p2;
 	ResetAll();
 	visAngle = 45;
 	fAspect = 0;
@@ -57,22 +59,32 @@ void ViewClass::MoveCenterZ(GLfloat val){
 }
 
 void ViewClass::MoveCameraX(GLfloat val){
-	cameraX += val;
+	if((cameraX + val) > pMax.x){
+		cameraX = pMax.x - 0.5;
+	}else if((cameraX + val) < pMin.x){
+		cameraX = pMin.x + 0.5;
+	}else{
+		cameraX += val;
+	}
 }
 
 void ViewClass::MoveCameraY(GLfloat val){
-	cameraY += val;
+	if((cameraY + val) > pMax.y){
+		cameraY = pMax.y - 0.5;
+	}else if((cameraY + val) < pMin.y){
+		cameraY = pMin.y + 0.5;
+	}else{
+		cameraY += val;
+	}
 }
 
 void ViewClass::MoveCameraZ(GLfloat val){
-	if (val > 0){
+	if((cameraZ + val) > pMax.z){
+		cameraZ = pMax.z - 0.5;
+	}else if((cameraY + val) < pMin.z){
+		cameraZ = pMin.z + 0.5;
+	}else{
 		cameraZ += val;
-	} else{
-		if ((cameraZ + val) > 0.5){
-			cameraZ += val;
-		} else{
-			cameraZ = 0.5;
-		}
 	}
 }
 
@@ -119,11 +131,11 @@ void ViewClass::ResetCamera(){
 }
 
 void ViewClass::ResetAll(){
-	cameraX = 0;
-	cameraY = 0;
+	cameraX = 1;
+	cameraY = 4;
 	cameraZ = 40;
 	centerX = 0;
-	centerY = 0;
+	centerY = 2;
 	centerZ = 0;
 	viewUpX = 0;
 	viewUpY = 1;

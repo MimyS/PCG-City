@@ -14,6 +14,8 @@ class ViewClass {
 	GLfloat viewUpZ;
 	GLfloat visAngle;
 	GLfloat fAspect;
+	Vertex3D pMin;
+	Vertex3D pMax;
 
 public:
 
@@ -38,6 +40,6 @@ public:
 	void ZoomIn();
 	void ZoomOut();
 
-	ViewClass();
+	ViewClass(Vertex3D, Vertex3D);
 	~ViewClass();
 };
