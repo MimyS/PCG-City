@@ -49,7 +49,6 @@ void HousesClass::drawRoof(){
     glEnable(GL_TEXTURE_2D);
 	Mat img = imread(roofTexture);
 	flip(img, img, 0);
-	rotate(img, img, ROTATE_90_CLOCKWISE);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
 
  	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -57,65 +56,54 @@ void HousesClass::drawRoof(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    glPushMatrix();
-    glTranslatef(position.x-0.5f,position.y, 1.0 + tan(45*pi/180)*0.5);
-	glRotatef(-135.0, 1.0f, 0.0f, 0.0f);
-	glBegin(GL_QUADS);
-	    glTexCoord2f(0.0, 1.0); glVertex2d(0.0f, 0.5/cos(45*pi/180.0));
-	    glTexCoord2f(0.0, 0.0); glVertex2d(1.0f, 0.5/cos(45*pi/180.0));
-	    glTexCoord2f(1.0, 0.0); glVertex2d(1.0f, 0.0f);
-	    glTexCoord2f(1.0, 1.0); glVertex2d(0.0f, 0.0f);
-	glEnd();
+	glPushMatrix();
+	{
+		glTranslated(position.x, position.y, 0.0);
+		
+		glBegin(GL_QUADS);
+			// up - trapeze
+			glTexCoord2d(-0.5, 1.0);	glVertex3d(-0.5, 0.5, 1.0);
+			glTexCoord2d(-0.2, 1.7);	glVertex3d(-0.2, 0.0, 1.7);
+			glTexCoord2d(0.2, 1.7);	glVertex3d( 0.2, 0.0, 1.7);
+			glTexCoord2d(0.5, 1.0);	glVertex3d( 0.5, 0.5, 1.0);
+			// down - trapeze
+			glTexCoord2d(-0.5, 1.0);	glVertex3d(-0.5, -0.5, 1.0);
+			glTexCoord2d(-0.2, 1.7);	glVertex3d(-0.2,  0.0, 1.7);
+			glTexCoord2d(0.2, 1.7);	glVertex3d( 0.2,  0.0, 1.7);
+			glTexCoord2d(0.5, 1.0);	glVertex3d( 0.5, -0.5, 1.0);
+		glEnd();
+	}
 	glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(position.x-0.5f,position.y, 1.0 + tan(45*pi/180.0)*0.5);
-	glRotatef(-45.0, 1.0f, 0.0f, 0.0f);
-	glBegin(GL_QUADS);
-	    glTexCoord2f(0.0, 1.0); glVertex2d(0.0f, 0.5/cos(45*pi/180.0));
-	    glTexCoord2f(0.0, 0.0); glVertex2d(1.0f, 0.5/cos(45*pi/180.0));
-	    glTexCoord2f(1.0, 0.0); glVertex2d(1.0f, 0.0f);
-	    glTexCoord2f(1.0, 1.0); glVertex2d(0.0f, 0.0f);
-	glEnd();
-	glPopMatrix();
-
-	rotate(img, img, ROTATE_90_CLOCKWISE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
-
- 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	
-    glPushMatrix();
-	glTranslatef(position.x - 0.5f, position.y - 0.5f, 1.0f);
-	glRotatef(90.0, 0.0f, 1.0f, 0.0f);
-	glRotatef(90.0, 0.0f, 0.0f, 1.0f);
-	glBegin(GL_TRIANGLE_STRIP);
-	    glTexCoord2f(1.0, 0.0); glVertex2d(1.0f, 0.0f);
-	    glTexCoord2f(0.0, 0.0); glVertex2d(0.0f, 0.0f);
-	    glTexCoord2f(0.5, tan(45*pi/180.0)*0.5); glVertex2d(0.5f, tan(45*pi/180.0)*0.5);
-	glEnd();
-	glPopMatrix();
+	rotate(img, img, ROTATE_90_CLOCKWISE);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
 
-    glPushMatrix();
-	glTranslatef(position.x + 0.5f, position.y - 0.5f, 1.0f);
-	glRotatef(90.0, 0.0f, 1.0f, 0.0f);
-	glRotatef(90.0, 0.0f, 0.0f, 1.0f);
-	glBegin(GL_TRIANGLE_STRIP);
-	    glTexCoord2f(1.0, 0.0); glVertex2d(1.0f, 0.0f);
-	    glTexCoord2f(0.0, 0.0); glVertex2d(0.0f, 0.0f);
-	    glTexCoord2f(0.5, tan(45*pi/180.0)*0.5); glVertex2d(0.5f, tan(45*pi/180.0)*0.5);
-	glEnd();
-	glPopMatrix();
+ 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
+	glPushMatrix();
+	{
+		glTranslated(position.x, position.y, 0.0f);
+
+		glBegin(GL_TRIANGLE_STRIP);
+			glTexCoord2d(-0.5,-0.5);	glVertex3d(-0.5,-0.5, 1.0);
+			glTexCoord2d(-0.2, 0.0);	glVertex3d(-0.2, 0.0, 1.7);
+			glTexCoord2d(-0.5, 0.5);	glVertex3d(-0.5, 0.5, 1.0);
+			
+			glTexCoord2d(-0.5,-0.5);	glVertex3d( 0.5,-0.5, 1.0);
+			glTexCoord2d(-0.2, 0.0);	glVertex3d( 0.2, 0.0, 1.7);
+			glTexCoord2d(-0.5, 0.5);	glVertex3d( 0.5, 0.5, 1.0);
+		glEnd();
+	}
+	glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 }
 
 void HousesClass::drawWalls(){
     glEnable(GL_TEXTURE_2D);
 	Mat img = imread(houseTexture);
-	// flip(img, img, 0);
 	rotate(img, img, ROTATE_180);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());
  	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -123,58 +111,35 @@ void HousesClass::drawWalls(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	// wall 1 - down
-
 	glPushMatrix();
-	glTranslatef(position.x - 0.5f, position.y - 0.5f, 0.0f);
-	glRotatef(90.0, 1.0f, 0.0f, 0.0f);
-	glBegin(GL_QUADS);
-	    glTexCoord2f(0.0, 1.0); glVertex2d(0.0f, 1.0f);
-	    glTexCoord2f(1.0, 1.0); glVertex2d(1.0f, 1.0f);
-	    glTexCoord2f(1.0, 0.0); glVertex2d(1.0f, 0.0f);
-	    glTexCoord2f(0.0, 0.0); glVertex2d(0.0f, 0.0f);
-	glEnd();
-	glPopMatrix();
+	{
+		glTranslated(position.x - 0.5, position.y - 0.5, 0.0);
 
-	// wall 3 - up
+		glBegin(GL_QUADS);
 
-	glPushMatrix();
-	glTranslatef(position.x - 0.5f,position.y + 0.5f,0.0f);
-	glRotatef(90.0, 1.0f, 0.0f, 0.0f);
-	glBegin(GL_QUADS);
-	    glTexCoord2f(0.0, 1.0); glVertex2d(0.0f, 1.0f);
-	    glTexCoord2f(1.0, 1.0); glVertex2d(1.0f, 1.0f);
-	    glTexCoord2f(1.0, 0.0); glVertex2d(1.0f, 0.0f);
-	    glTexCoord2f(0.0, 0.0); glVertex2d(0.0f, 0.0f);
-	glEnd();
-	glPopMatrix();
+			// wall 1 - down
+			glTexCoord2d(0.0, 1.0);	glVertex3d(0.0, 0.0, 1.0);
+			glTexCoord2d(1.0, 1.0);	glVertex3d(1.0, 0.0, 1.0);
+			glTexCoord2d(1.0, 0.0);	glVertex3d(1.0, 0.0, 0.0);
+			glTexCoord2d(0.0, 0.0);	glVertex3d(0.0, 0.0, 0.0);
+			// wall 2 - left
+			glTexCoord2d(0.0, 1.0);	glVertex3d(0.0, 0.0, 1.0);
+			glTexCoord2d(1.0, 1.0);	glVertex3d(0.0, 1.0, 1.0);
+			glTexCoord2d(1.0, 0.0);	glVertex3d(0.0, 1.0, 0.0);
+			glTexCoord2d(0.0, 0.0);	glVertex3d(0.0, 0.0, 0.0);
+			// wall 3 - up
+			glTexCoord2d(0.0, 1.0);	glVertex3d(0.0, 1.0, 1.0);
+			glTexCoord2d(1.0, 1.0);	glVertex3d(1.0, 1.0, 1.0);
+			glTexCoord2d(1.0, 0.0);	glVertex3d(1.0, 1.0, 0.0);
+			glTexCoord2d(0.0, 0.0);	glVertex3d(0.0, 1.0, 0.0);
+			// wall 4 - right
+			glTexCoord2d(0.0, 1.0);	glVertex3d(1.0, 0.0, 1.0);
+			glTexCoord2d(1.0, 1.0);	glVertex3d(1.0, 1.0, 1.0);
+			glTexCoord2d(1.0, 0.0);	glVertex3d(1.0, 1.0, 0.0);
+			glTexCoord2d(0.0, 0.0);	glVertex3d(1.0, 0.0, 0.0);
 
-	// wall 2 - left
-	
-	glPushMatrix();
-	glTranslatef(position.x - 0.5f, position.y - 0.5f, 0.0f);
-	glRotatef(90.0, 1.0f, 0.0f, 0.0f);
-	glRotatef(90.0, 0.0f, 1.0f, 0.0f);
-	glBegin(GL_QUADS);
-	    glTexCoord2f(0.0, 1.0); glVertex2d(0.0f, 1.0f);
-	    glTexCoord2f(1.0, 1.0); glVertex2d(1.0f, 1.0f);
-	    glTexCoord2f(1.0, 0.0); glVertex2d(1.0f, 0.0f);
-	    glTexCoord2f(0.0, 0.0); glVertex2d(0.0f, 0.0f);
-	glEnd();
-	glPopMatrix();
-
-	// wall 4 - right
-
-	glPushMatrix();
-	glTranslatef(position.x + 0.5f,position.y - 0.5f,0.0f);
-	glRotatef(90.0, 1.0f, 0.0f, 0.0f);
-	glRotatef(90.0, 0.0f, 1.0f, 0.0f);
-	glBegin(GL_QUADS);
-	    glTexCoord2f(0.0, 1.0); glVertex2d(0.0f, 1.0f);
-	    glTexCoord2f(1.0, 1.0); glVertex2d(1.0f, 1.0f);
-	    glTexCoord2f(1.0, 0.0); glVertex2d(1.0f, 0.0f);
-	    glTexCoord2f(0.0, 0.0); glVertex2d(0.0f, 0.0f);
-	glEnd();
+		glEnd();
+	}
 	glPopMatrix();
 
 	glDisable(GL_TEXTURE_2D);   

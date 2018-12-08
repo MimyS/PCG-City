@@ -3,6 +3,7 @@
 /**GLOBAL**/
 ViewClass viewC;
 ControlClass control;
+LightClass light(-10.0f, -10.0f, 25.0f);
 
 using namespace std;
 
@@ -10,8 +11,6 @@ void drawScene(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glClearColor(173/255.0, 213/255.0, 247/255.0, 1.0f);
-
-	LightClass light(4.0f, 4.0f, 5.0f);
 
 	Vertex2D position = {2.0f, 2.0f};
 

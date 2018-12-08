@@ -138,60 +138,34 @@ void BuildingsClass<isTransparent, isMirror>::drawWalls(){
 		glColor4f(1.0f,1.0f,1.0f,0.5f);
 	}
 
-	// wall 1
-
 	glPushMatrix();
-	glTranslatef(position.x - 0.5f, position.y - 0.5f, 0.0f);
-	glRotatef(90.0, 1.0f, 0.0f, 0.0f);
-	glBegin(GL_QUADS);
-	    glTexCoord2f(0.0, size); glVertex2d(0.0f, size);
-	    glTexCoord2f(1.0, size); glVertex2d(1.0f, size);
-	    glTexCoord2f(1.0, 0.0); glVertex2d(1.0f, 0.0f);
-	    glTexCoord2f(0.0, 0.0); glVertex2d(0.0f, 0.0f);
-	glEnd();
-	glPopMatrix();
+	{
+		glTranslated(position.x - 0.5, position.y - 0.5, 0.0);
 
-	// wall 3
+		glBegin(GL_QUADS);
+		// wall 1 - down
+		glTexCoord2d(0.0, size);	glVertex3d(0.0, 0.0, size);
+		glTexCoord2d(1.0, size);	glVertex3d(1.0, 0.0, size);
+		glTexCoord2d(1.0, 0.0);		glVertex3d(1.0, 0.0, 0.0);
+		glTexCoord2d(0.0, 0.0);		glVertex3d(0.0, 0.0, 0.0);
+		// wall 2 - left
+		glTexCoord2d(0.0, size);	glVertex3d(0.0, 0.0, size);
+		glTexCoord2d(1.0, size);	glVertex3d(0.0, 1.0, size);
+		glTexCoord2d(1.0, 0.0);		glVertex3d(0.0, 1.0, 0.0);
+		glTexCoord2d(0.0, 0.0);		glVertex3d(0.0, 0.0, 0.0);
+		// wall 3 - up
+		glTexCoord2d(0.0, size);	glVertex3d(0.0, 1.0, size);
+		glTexCoord2d(1.0, size);	glVertex3d(1.0, 1.0, size);
+		glTexCoord2d(1.0, 0.0);		glVertex3d(1.0, 1.0, 0.0);
+		glTexCoord2d(0.0, 0.0);		glVertex3d(0.0, 1.0, 0.0);
+		// wall 4 - right
+		glTexCoord2d(0.0, size);	glVertex3d(1.0, 0.0, size);
+		glTexCoord2d(1.0, size);	glVertex3d(1.0, 1.0, size);
+		glTexCoord2d(1.0, 0.0);		glVertex3d(1.0, 1.0, 0.0);
+		glTexCoord2d(0.0, 0.0);		glVertex3d(1.0, 0.0, 0.0);
 
-	glPushMatrix();
-	glTranslatef(position.x - 0.5f,position.y + 0.5f,0.0f);
-	glRotatef(90.0, 1.0f, 0.0f, 0.0f);
-	glBegin(GL_QUADS);
-	    glTexCoord2f(0.0, size); glVertex2d(0.0f, size);
-	    glTexCoord2f(1.0, size); glVertex2d(1.0f, size);
-	    glTexCoord2f(1.0, 0.0); glVertex2d(1.0f, 0.0f);
-	    glTexCoord2f(0.0, 0.0); glVertex2d(0.0f, 0.0f);
-	glEnd();
-	glPopMatrix();
-
-	// wall 2
-
-	glPushMatrix();
-
-	glTranslatef(position.x - 0.5f,position.y - 0.5f,0.0f);
-	glRotatef(90.0, 1.0f, 0.0f, 0.0f);
-	glRotatef(90.0, 0.0f, 1.0f, 0.0f);
-	glBegin(GL_QUADS);
-	    glTexCoord2f(0.0, size); glVertex2d(0.0f, size);
-	    glTexCoord2f(1.0, size); glVertex2d(1.0f, size);
-	    glTexCoord2f(1.0, 0.0); glVertex2d(1.0f, 0.0f);
-	    glTexCoord2f(0.0, 0.0); glVertex2d(0.0f, 0.0f);
-	glEnd();
-
-	glPopMatrix();
-
-	// wall 4
-
-	glPushMatrix();
-	glTranslatef(position.x + 0.5f,position.y - 0.5f,0.0f);
-	glRotatef(90.0, 1.0f, 0.0f, 0.0f);
-	glRotatef(90.0, 0.0f, 1.0f, 0.0f);
-	glBegin(GL_QUADS);
-	    glTexCoord2f(0.0, size); glVertex2d(0.0f, size);
-	    glTexCoord2f(1.0, size); glVertex2d(1.0f, size);
-	    glTexCoord2f(1.0, 0.0); glVertex2d(1.0f, 0.0f);
-	    glTexCoord2f(0.0, 0.0); glVertex2d(0.0f, 0.0f);
-	glEnd();
+		glEnd();
+	}
 	glPopMatrix();
 	
 	if(isTransparent){
