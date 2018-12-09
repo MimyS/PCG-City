@@ -19,46 +19,33 @@ LightClass::~LightClass(){
 }
 
 void LightClass::basicMaterial(){
-	glDisable(GL_BLEND);
 	glDisable(GL_COLOR_MATERIAL);
-	
-	GLfloat specular[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	GLfloat ambient[] = { 0.2, 0.2, 0.2, 1.0 };
-	GLfloat diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-	GLfloat surface_emission[] = { 0, 0, 0, 1.0f };
+	GLfloat specular[] = { 0.0f, 0.0f, 0.0f, 0 };
+	GLfloat ambient[] = { 0.2, 0.2, 0.2, 0 };
+	GLfloat diffuse[] = { 0.4f, 0.4f, 0.4f, 0 };
 
-	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, surface_emission);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
-	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 0.0f);
-	glColor4d(1.0f, 1.0f, 1.0f, 1.0f);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 1);
+	glColor4d(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
 void LightClass::transparentMaterial(){
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
-	// GLfloat diffuse[] = { 0.0f, 0.0f, 0.0f, 0.5f };
-
-	// glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
-	// glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 0.0f);
+	glEnable(GL_COLOR_MATERIAL);
 	glColor4d(1.0f, 1.0f, 1.0f, 0.5f);
 }
 
 void LightClass::reflectiveMaterial(){
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
+	glDisable(GL_COLOR_MATERIAL);
+	GLfloat specular[] = { 1, 1, 1, 0 };
+	GLfloat ambient[] = { 1, 1, 1, 0 };
+	GLfloat diffuse[] = { 1, 1, 1, 0 };
 
-	GLfloat specular[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	GLfloat ambient[] = { 0.2, 0.2, 0.2, 1.0 };
-	GLfloat diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-	GLfloat surface_emission[] = { 0, 0, 0, 1.0f };
-
-	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, surface_emission);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
-	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 1.0f);
 }
 
 void LightClass::lighting() {
@@ -71,15 +58,13 @@ void LightClass::lighting() {
 	/* Cria uma fonte de luz puntual */
 	glLightfv(GL_LIGHT0, GL_POSITION, position);
 
-	glLightfv(GL_LIGHT0, GL_AMBIENT, quarter);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, half);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, black);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, white);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, white);
 
-	// glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.001);
-	// glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.001);
-	// glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.001);
+	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 1);
+	glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 1);
+	glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 1);
 
-	//glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_LIGHT0);
-
 }

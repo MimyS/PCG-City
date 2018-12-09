@@ -2,7 +2,6 @@
 
 const string HousesClass::floorTexture = "../Texture/BuildingFloor2.jpg";
 const string HousesClass::grassTexture = "../Texture/grass.jpg";
-const string HousesClass::roofTexture = "../Texture/HouseRoof.jpg";
 
 void HousesClass::draw(){
     drawRoof();
@@ -11,9 +10,10 @@ void HousesClass::draw(){
 	drawGrass();
 }
 
-HousesClass::HousesClass(Vertex2D pos, string houseText){
+HousesClass::HousesClass(Vertex2D pos, string houseText, string roofText){
     position = pos;
     houseTexture = houseText;
+	roofTexture = roofText;
 }
 
 
@@ -53,13 +53,13 @@ void HousesClass::drawRoof(){
 			// up - trapeze
 			glTexCoord2d(-0.5, 1.0);	glVertex3d(-0.5, 0.5, 1.0);
 			glTexCoord2d(-0.2, 1.7);	glVertex3d(-0.2, 0.0, 1.7);
-			glTexCoord2d(0.2, 1.7);	glVertex3d( 0.2, 0.0, 1.7);
-			glTexCoord2d(0.5, 1.0);	glVertex3d( 0.5, 0.5, 1.0);
+			glTexCoord2d(0.2, 1.7);		glVertex3d( 0.2, 0.0, 1.7);
+			glTexCoord2d(0.5, 1.0);		glVertex3d( 0.5, 0.5, 1.0);
 			// down - trapeze
 			glTexCoord2d(-0.5, 1.0);	glVertex3d(-0.5, -0.5, 1.0);
 			glTexCoord2d(-0.2, 1.7);	glVertex3d(-0.2,  0.0, 1.7);
-			glTexCoord2d(0.2, 1.7);	glVertex3d( 0.2,  0.0, 1.7);
-			glTexCoord2d(0.5, 1.0);	glVertex3d( 0.5, -0.5, 1.0);
+			glTexCoord2d(0.2, 1.7);		glVertex3d( 0.2,  0.0, 1.7);
+			glTexCoord2d(0.5, 1.0);		glVertex3d( 0.5, -0.5, 1.0);
 		glEnd();
 	}
 	glPopMatrix();

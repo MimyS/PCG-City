@@ -8,6 +8,8 @@
 #include <iostream>
 #include <utility>
 #include <ctype.h>
+#include <stdlib.h>
+#include <time.h>  
 
 const double pi = 3.1415926535897; 
 using namespace std;

@@ -6,41 +6,78 @@ Vertex3D pMax = { 25, 25, 50};
 ViewClass viewC(pMin, pMax);
 ControlClass control;
 LightClass light(pMax.x - 0.1, pMax.y - 0.1, pMax.z - 1.0);
+vector<HousesClass> houses;
+vector<BuildingsClass<false,false>> normalBuildings;
+vector<BuildingsClass<false,true>> mirrorBuildings;
+BuildingsClass<true, false> p({0.0,0.0}, 12.0f, "../Texture/BuildingWall16.jpg");
 
 using namespace std;
 
+GLfloat bdSize(){
+	return 3 + rand()%6;
+}
+
+string bdText(){
+	return "../Texture/BuildingWall" + to_string((rand()%16)+1) + ".jpg";
+}
+
+string hsText(){
+	return "../Texture/HouseWall" + to_string((rand()%9)+1) + ".jpg";
+}
+
+string rfText(){
+	return "../Texture/HouseRoof" + to_string((rand()%3)+1) + ".jpg";
+}
+
+void Init(){
+	srand (time(NULL));
+	houses.reserve(36);
+	normalBuildings.reserve(8);
+	mirrorBuildings.reserve(4);
+
+	Vertex2D position;	
+
+	for(char i = -14; i <= 14; i+2){
+		for(char j = -14 ; j <= 14; j+2){
+			position = {i, j};
+			if(abs(i) != abs(j)){
+				houses.push_back(HousesClass(position, hsText(), rfText()));
+			}else{
+				if(i != 2 && i != -2){
+					normalBuildings.push_back(BuildingsClass<false,false>(position, bdSize(), bdText()));
+				}else if(i != 0){
+					mirrorBuildings.push_back(BuildingsClass<false, true>(position, bdSize(), bdText()));
+				}
+			}
+		}
+	}
+}
+
 void drawScene(){
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(1.0, 1.0, 0.98, 1.0f);
+	
 	glEnable(GL_COLOR_MATERIAL);
 
-	glClearColor(1.0, 1.0, 0.98, 1.0f);
-
-	Vertex2D position = {2.0f, 2.0f};
-	
-	light.basicMaterial();
-
-	HousesClass c1(position, "../Texture/HouseWall.jpg");
-	c1.draw();
-
-	position = {-2.0f, -2.0f};
-
-	BuildingsClass<false, false> p1(position, 5.0f, "../Texture/BuildingWall5.jpg");
-	p1.draw(light);
-
-	position = {0.0f, 0.0f};
-
-	BuildingsClass<true, false> p2(position, 12.0f, "../Texture/BuildingWall.jpg");
-	p2.draw(light);
-
-	position = {2.0f, -2.0f};
-
-	BuildingsClass<false, true> p3(position, 7.0f, "../Texture/BuildingWall10.jpg");
-	p3.draw(light);
-
-	drawCityFloor();
 	glDisable(GL_LIGHTING);
 	drawLandscape();
 	glEnable(GL_LIGHTING);
+	drawCityFloor();
+
+	light.basicMaterial();
+	
+	for(auto h:houses){
+		h.draw();
+	}
+	for(auto b:normalBuildings){
+		b.draw(light);
+	}
+	for(auto b:mirrorBuildings){
+		b.draw(light);
+	}
+
+	p.draw(light);
 
 	light.ambient_light();
 	light.lighting();
@@ -56,7 +93,6 @@ void drawCityFloor(){
 	flip(img, img, 0);
 	SET_TEXTURE_PARAM(img)
 
-	// glColor3f(1.0f,0.0f,0.0f);
 	glEnable(GL_TEXTURE_2D);
 	glBegin(GL_QUADS);
 	    glTexCoord2f(0.0, 10.0); glVertex2d(-10.0, 10.0);
@@ -181,8 +217,6 @@ void windowReshapeFunc(GLsizei w, GLsizei h){
 }
 
 void animate(){
-
-
 	viewC.VisParamSpecify();
 	glutPostRedisplay();
 }

@@ -17,6 +17,8 @@ int main(int argc, char **argv){
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
+	Init();
+
 	glutIdleFunc(animate);
 
 	glutDisplayFunc(drawScene);

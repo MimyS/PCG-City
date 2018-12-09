@@ -11,6 +11,7 @@
 extern ViewClass viewC;
 extern ControlClass control;
 
+void Init();
 void drawScene();
 void drawCityFloor();
 void drawLandscape();

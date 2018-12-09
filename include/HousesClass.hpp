@@ -6,7 +6,7 @@ class HousesClass{
 	Vertex2D position;
 	const static string floorTexture;
 	const static string grassTexture;
-	const static string roofTexture;
+	string roofTexture;
 	string houseTexture;
 	void drawFloor();
 	void drawRoof();
@@ -14,7 +14,7 @@ class HousesClass{
 	void drawGrass();
 public:
 	void draw();
-	HousesClass(Vertex2D, string);
+	HousesClass(Vertex2D, string, string);
 	~HousesClass();
 };
 
