@@ -7,6 +7,9 @@ class LightClass{
 public:
 	void ambient_light();
 	void lighting();
+	void basicMaterial();
+	void transparentMaterial();
+	void reflectiveMaterial();
 	LightClass(GLfloat x, GLfloat y, GLfloat z);
 	~LightClass();
 };

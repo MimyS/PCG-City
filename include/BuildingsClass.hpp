@@ -8,22 +8,22 @@ class BuildingsClass{
 	string wallTexture;
 	static const string floorTexture;
 	static const string roofTexture;
-	void drawWalls();
-	void drawFloor();
-	void drawRoof();
+	void drawWalls(LightClass & light);
+	void drawFloor(LightClass & light);
+	void drawRoof(LightClass & light);
 	
 public:
-	void draw();
+	void draw(LightClass &);
 	BuildingsClass(Vertex2D, GLfloat, string);
 	~BuildingsClass();
 };
 
 template<bool isTransparent, bool isMirror>
-void BuildingsClass<isTransparent, isMirror>::draw(){
+void BuildingsClass<isTransparent, isMirror>::draw(LightClass & light){
 
-	drawFloor();
-	drawWalls();
-	drawRoof();
+	drawFloor(light);
+	drawWalls(light);
+	drawRoof(light);
 
 }
 
@@ -33,25 +33,19 @@ template<bool isTransparent, bool isMirror>
 const string BuildingsClass<isTransparent, isMirror>::roofTexture = "../Texture/BuildingRoof.jpg";
 
 template<bool isTransparent, bool isMirror>
-void BuildingsClass<isTransparent, isMirror>::drawFloor(){
-	glPushMatrix();
+void BuildingsClass<isTransparent, isMirror>::drawFloor(LightClass & light){
 	glEnable(GL_TEXTURE_2D);
 	Mat img = imread(floorTexture);
 	flip(img, img, 0);
 	SET_TEXTURE_PARAM(img)
+	
 	if(isTransparent){
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
-		GLfloat kd1[] = { 0.8f,0.8f,0.8f,0.5f };
-		GLfloat ks1[] = { 0.8f,0.8f,0.8,0.5f };
-		GLfloat ns1 = 60.0f;
-
-		glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, kd1);
-		glMaterialfv(GL_FRONT, GL_SPECULAR, ks1);
-		glMaterialf(GL_FRONT, GL_SHININESS, ns1);
-		glMatrixMode(GL_MODELVIEW);
-		glColor4f(1.0f,1.0f,1.0f,0.5f);
+		light.transparentMaterial();
+	}else if(isMirror){
+		light.reflectiveMaterial();
 	}
+
+	glPushMatrix();
 	glTranslated(position.x-0.5f, position.y-0.5f, 0.005f);
 	glBegin(GL_QUADS);
 	    glTexCoord2f(0.0, 1.0); glVertex2f(0.0f, 0.0f);
@@ -59,33 +53,27 @@ void BuildingsClass<isTransparent, isMirror>::drawFloor(){
 	    glTexCoord2f(1.0, 0.0); glVertex2f(1.0f, 1.0f);
 	    glTexCoord2f(1.0, 1.0); glVertex2f(1.0f, 0.0f);
 	glEnd();
-	if(isTransparent){
-		glDisable(GL_BLEND);
+	glPopMatrix();
+
+	if(isTransparent||isMirror){
+		light.basicMaterial();
 	}
 	glDisable(GL_TEXTURE_2D);   
-	glPopMatrix();
 }
 
 template<bool isTransparent, bool isMirror>
-void BuildingsClass<isTransparent, isMirror>::drawRoof(){
-	glPushMatrix();
+void BuildingsClass<isTransparent, isMirror>::drawRoof(LightClass & light){
 	glEnable(GL_TEXTURE_2D);
 	Mat img = imread(roofTexture);
 	SET_TEXTURE_PARAM(img)
 
 	if(isTransparent){
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
-		GLfloat kd1[] = { 0.8f,0.8f,0.8f,0.5f };
-		GLfloat ks1[] = { 0.8f,0.8f,0.8,0.5f };
-		GLfloat ns1 = 60.0f;
-
-		glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, kd1);
-		glMaterialfv(GL_FRONT, GL_SPECULAR, ks1);
-		glMaterialf(GL_FRONT, GL_SHININESS, ns1);
-		glMatrixMode(GL_MODELVIEW);
-		glColor4f(1.0f,1.0f,1.0f,0.5f);
+		light.transparentMaterial();
+	}else if(isMirror){
+		light.reflectiveMaterial();
 	}
+
+	glPushMatrix();
 	glTranslated(position.x-0.5f, position.y-0.5f, size);
 	glBegin(GL_QUADS);
 	    glTexCoord2f(0.0, 1.0); glVertex2f(0.0f, 0.0f);
@@ -93,32 +81,25 @@ void BuildingsClass<isTransparent, isMirror>::drawRoof(){
 	    glTexCoord2f(1.0, 0.0); glVertex2f(1.0f, 1.0f);
 	    glTexCoord2f(1.0, 1.0); glVertex2f(1.0f, 0.0f);
 	glEnd();
-	if(isTransparent){
-		glDisable(GL_BLEND);
+	glPopMatrix();
+
+	if(isTransparent||isMirror){
+		light.basicMaterial();
 	}
 	glDisable(GL_TEXTURE_2D);   
-	glPopMatrix();
 }
 
 template<bool isTransparent, bool isMirror>
-void BuildingsClass<isTransparent, isMirror>::drawWalls(){
+void BuildingsClass<isTransparent, isMirror>::drawWalls(LightClass & light){
 	glEnable(GL_TEXTURE_2D);
 	Mat img = imread(wallTexture);
 	rotate(img, img, ROTATE_180);
 	SET_TEXTURE_PARAM(img)
 
 	if(isTransparent){
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
-		GLfloat kd1[] = { 0.8f,0.8f,0.8f,0.5f };
-		GLfloat ks1[] = { 0.8f,0.8f,0.8,0.5f };
-		GLfloat ns1 = 60.0f;
-
-		glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, kd1);
-		glMaterialfv(GL_FRONT, GL_SPECULAR, ks1);
-		glMaterialf(GL_FRONT, GL_SHININESS, ns1);
-		glMatrixMode(GL_MODELVIEW);
-		glColor4f(1.0f,1.0f,1.0f,0.5f);
+		light.transparentMaterial();
+	}else if(isMirror){
+		light.reflectiveMaterial();
 	}
 
 	glPushMatrix();
@@ -151,8 +132,8 @@ void BuildingsClass<isTransparent, isMirror>::drawWalls(){
 	}
 	glPopMatrix();
 	
-	if(isTransparent){
-		glDisable(GL_BLEND);
+	if(isTransparent||isMirror){
+		light.basicMaterial();
 	}
 	glDisable(GL_TEXTURE_2D);   
 }

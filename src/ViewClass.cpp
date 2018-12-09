@@ -81,7 +81,7 @@ void ViewClass::MoveCameraY(GLfloat val){
 void ViewClass::MoveCameraZ(GLfloat val){
 	if((cameraZ + val) > pMax.z){
 		cameraZ = pMax.z - 0.5;
-	}else if((cameraY + val) < pMin.z){
+	}else if((cameraZ + val) < 0){
 		cameraZ = pMin.z + 0.5;
 	}else{
 		cameraZ += val;
@@ -131,12 +131,12 @@ void ViewClass::ResetCamera(){
 }
 
 void ViewClass::ResetAll(){
-	cameraX = 1;
-	cameraY = 4;
+	cameraX = 0;
+	cameraY = 0;
 	cameraZ = 40;
 	centerX = 0;
-	centerY = 2;
-	centerZ = 0;
+	centerY = 0;
+	centerZ = -0.1;
 	viewUpX = 0;
 	viewUpY = 1;
 	viewUpZ = 0;

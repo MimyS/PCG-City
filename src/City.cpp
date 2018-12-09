@@ -5,16 +5,19 @@ Vertex3D pMin = {-25,-25,-0.01};
 Vertex3D pMax = { 25, 25, 50};
 ViewClass viewC(pMin, pMax);
 ControlClass control;
-LightClass light(-10.0f, -10.0f, 25.0f);
+LightClass light(pMax.x - 0.1, pMax.y - 0.1, pMax.z - 1.0);
 
 using namespace std;
 
 void drawScene(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_COLOR_MATERIAL);
 
-	glClearColor(173/255.0, 213/255.0, 247/255.0, 1.0f);
+	glClearColor(1.0, 1.0, 0.98, 1.0f);
 
 	Vertex2D position = {2.0f, 2.0f};
+	
+	light.basicMaterial();
 
 	HousesClass c1(position, "../Texture/HouseWall.jpg");
 	c1.draw();
@@ -22,23 +25,24 @@ void drawScene(){
 	position = {-2.0f, -2.0f};
 
 	BuildingsClass<false, false> p1(position, 5.0f, "../Texture/BuildingWall5.jpg");
-	p1.draw();
+	p1.draw(light);
 
 	position = {0.0f, 0.0f};
 
 	BuildingsClass<true, false> p2(position, 12.0f, "../Texture/BuildingWall.jpg");
-	p2.draw();
+	p2.draw(light);
 
 	position = {2.0f, -2.0f};
 
 	BuildingsClass<false, true> p3(position, 7.0f, "../Texture/BuildingWall10.jpg");
-	p3.draw();
+	p3.draw(light);
 
 	drawCityFloor();
+	glDisable(GL_LIGHTING);
 	drawLandscape();
+	glEnable(GL_LIGHTING);
 
 	light.ambient_light();
-
 	light.lighting();
 
 	glutSwapBuffers();
