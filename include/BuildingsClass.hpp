@@ -5,16 +5,16 @@ template<bool isTransparent, bool isMirror>
 class BuildingsClass{
 	GLfloat size;
 	Vertex2D position;
-	string wallTexture;
-	static const string floorTexture;
-	static const string roofTexture;
+	static const GLuint floorTextureID;
+	static const GLuint roofTextureID;
 	void drawWalls(LightClass & light);
 	void drawFloor(LightClass & light);
 	void drawRoof(LightClass & light);
-	
+	GLuint wallTextureID;
+
 public:
 	void draw(LightClass &);
-	BuildingsClass(Vertex2D, GLfloat, string);
+	BuildingsClass(Vertex2D, GLfloat, GLuint);
 	~BuildingsClass();
 };
 
@@ -28,16 +28,15 @@ void BuildingsClass<isTransparent, isMirror>::draw(LightClass & light){
 }
 
 template<bool isTransparent, bool isMirror>
-const string BuildingsClass<isTransparent, isMirror>::floorTexture = "../Texture/BuildingFloor.jpg";
+const GLuint BuildingsClass<isTransparent, isMirror>::floorTextureID = 8;
 template<bool isTransparent, bool isMirror>
-const string BuildingsClass<isTransparent, isMirror>::roofTexture = "../Texture/BuildingRoof.jpg";
+const GLuint BuildingsClass<isTransparent, isMirror>::roofTextureID = 10;
 
 template<bool isTransparent, bool isMirror>
 void BuildingsClass<isTransparent, isMirror>::drawFloor(LightClass & light){
 	glEnable(GL_TEXTURE_2D);
-	Mat img = imread(floorTexture);
-	flip(img, img, 0);
-	SET_TEXTURE_PARAM(img)
+
+	glBindTexture(GL_TEXTURE_2D, floorTextureID);
 	
 	if(isTransparent){
 		light.transparentMaterial();
@@ -64,8 +63,8 @@ void BuildingsClass<isTransparent, isMirror>::drawFloor(LightClass & light){
 template<bool isTransparent, bool isMirror>
 void BuildingsClass<isTransparent, isMirror>::drawRoof(LightClass & light){
 	glEnable(GL_TEXTURE_2D);
-	Mat img = imread(roofTexture);
-	SET_TEXTURE_PARAM(img)
+
+	glBindTexture(GL_TEXTURE_2D, roofTextureID);
 
 	if(isTransparent){
 		light.transparentMaterial();
@@ -92,9 +91,8 @@ void BuildingsClass<isTransparent, isMirror>::drawRoof(LightClass & light){
 template<bool isTransparent, bool isMirror>
 void BuildingsClass<isTransparent, isMirror>::drawWalls(LightClass & light){
 	glEnable(GL_TEXTURE_2D);
-	Mat img = imread(wallTexture);
-	rotate(img, img, ROTATE_180);
-	SET_TEXTURE_PARAM(img)
+
+	glBindTexture(GL_TEXTURE_2D, wallTextureID);
 
 	if(isTransparent){
 		light.transparentMaterial();
@@ -139,10 +137,10 @@ void BuildingsClass<isTransparent, isMirror>::drawWalls(LightClass & light){
 }
 
 template<bool isTransparent, bool isMirror>
-BuildingsClass<isTransparent, isMirror>::BuildingsClass(Vertex2D pos, GLfloat height, string wall){
+BuildingsClass<isTransparent, isMirror>::BuildingsClass(Vertex2D pos, GLfloat height, GLuint wall){
 	position = pos;
 	size = height;
-	wallTexture = wall;
+	wallTextureID = wall;
 }
 
 template<bool isTransparent, bool isMirror>
