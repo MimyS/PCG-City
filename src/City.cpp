@@ -9,26 +9,28 @@ LightClass light(pMax.x - 0.1, pMax.y - 0.1, pMax.z - 1.0);
 vector<HousesClass> houses;
 vector<BuildingsClass<false,false>> normalBuildings;
 vector<BuildingsClass<false,true>> mirrorBuildings;
-BuildingsClass<true, false> p({0.0,0.0}, 12.0f);
+BuildingsClass<true, false> p({0.0,0.0}, 10.0f);
 
-GLuint vecTexture[42];
+const char numBuildWallText = 4;
+
+GLuint vecTexture[11 + 6 + 3 + numBuildWallText];
 
 using namespace std;
 
 GLfloat bdSize(){
-	return 3 + rand()%6;
+	return 2 + rand()%6;
 }
 
 GLuint bdText(){
-	return vecTexture[27 + (rand()%16)];
+	return vecTexture[11+6+3 + (rand()%numBuildWallText)];
 }
 
 GLuint hsText(){
-	return vecTexture[18 + (rand()%19)];
+	return vecTexture[11+6 + (rand()%3)];
 }
 
 GLuint rfText(){
-	return 12 + 2*(rand()%3);
+	return 11 + 2*(rand()%3);
 }
 
 GLuint img2Texture(cv::Mat &mat){
@@ -98,17 +100,17 @@ void TextureBind(){
 
 	auto temp = 11;
 
-	for(auto i = 1; i <= 6; i+=2){
+	for(auto i = 1; i <= 3; i++){
 		img = imread(base + to_string(i) + ".jpg");
 		flip(img, img, 0);
 		vecTexture[temp++] = img2Texture(img);
-		rotate(img, img, ROTATE_90_CLOCKWISE);
+		rotate(img, img, ROTATE_90_COUNTERCLOCKWISE);
 		vecTexture[temp++] = img2Texture(img);
 	}
 
 	base = "../Texture/HouseWall";
 
-	for(auto i = 1; i <= 9; i++){
+	for(auto i = 1; i <= 3; i++){
 		img = imread(base + to_string(i) + ".jpg");
 		rotate(img, img, ROTATE_180);
 		vecTexture[temp++] = img2Texture(img);
@@ -116,7 +118,7 @@ void TextureBind(){
 
 	base = "../Texture/BuildingWall";
 
-	for(auto i = 1; i <= 16; i++){
+	for(auto i = 1; i <= numBuildWallText; i++){
 		img = imread(base + to_string(i) + ".jpg");
 		rotate(img, img, ROTATE_180);
 		vecTexture[temp++] = img2Texture(img);
@@ -125,8 +127,9 @@ void TextureBind(){
 	glDisable(GL_TEXTURE_2D);
 	img.release();
 }
+
 void DeleteBinds(){
-	glDeleteTextures(42, vecTexture);
+	glDeleteTextures(11+3+6+numBuildWallText, vecTexture);
 }
 
 void Init(){
@@ -140,7 +143,7 @@ void Init(){
 
 	for(char i = -12; i <= 12; i+=4){
 		for(char j = -12 ; j <= 12; j+=4){
-			position = {i, j};
+			position = {GLfloat(i), GLfloat(j)};
 			if(abs(i) != abs(j)){
 				if(i == 0){
 					if (abs(j) == 12){
@@ -168,7 +171,7 @@ void Init(){
 			}
 		}
 	}
-	p.setWallText(vecTexture[41]);
+	p.setWallText(vecTexture[20]);
 	p.setTexts(vecTexture[7], vecTexture[9]);
 	
 }
@@ -208,11 +211,6 @@ void drawScene(){
 void drawCityFloor(){
 	glPushMatrix();
 
-	/*string floorTexture = "../Texture/CityFloor.jpg";
-	Mat img = imread(floorTexture);
-	flip(img, img, 0);
-	SET_TEXTURE_PARAM(img)*/
-
 	glEnable(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, vecTexture[0]);
@@ -226,15 +224,9 @@ void drawCityFloor(){
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
-	// img.release();
 }
 
 void drawLandscape(){
-	// string landscapeTexture = "../Texture/skybox3";
-	// Mat img = imread(landscapeTexture+"-down.jpg");
-	// flip(img, img, 0);
-	// SET_TEXTURE_PARAM(img)
-
 	glPushMatrix();
 	{
 		glEnable(GL_TEXTURE_2D);
@@ -248,10 +240,6 @@ void drawLandscape(){
 		glDisable(GL_TEXTURE_2D);
 	}
 	glPopMatrix();
-
-	// img = imread(landscapeTexture+"-up.jpg");
-	// flip(img, img, 0);
-	// SET_TEXTURE_PARAM(img)
 
 	glPushMatrix();
 	{
@@ -267,11 +255,6 @@ void drawLandscape(){
 	}
 	glPopMatrix();
 
-	/*img = imread(landscapeTexture+"-side4.jpg");
-	flip(img, img, 0);
-	flip(img, img, 1);
-	SET_TEXTURE_PARAM(img)*/
-
 	glPushMatrix();
 	{
 		glEnable(GL_TEXTURE_2D);
@@ -285,10 +268,6 @@ void drawLandscape(){
 		glDisable(GL_TEXTURE_2D);
 	}
 	glPopMatrix();
-
-	/*img = imread(landscapeTexture+"-side3.jpg");
-	flip(img, img, 0);
-	SET_TEXTURE_PARAM(img)*/
 
 	glPushMatrix();
 	{
@@ -304,10 +283,6 @@ void drawLandscape(){
 	}
 	glPopMatrix();
 
-	/*img = imread(landscapeTexture+"-side2.jpg");
-	flip(img, img, 0);
-	SET_TEXTURE_PARAM(img)*/
-
 	glPushMatrix();
 	{
 		glEnable(GL_TEXTURE_2D);
@@ -322,11 +297,6 @@ void drawLandscape(){
 	}
 	glPopMatrix();
 
-	/*img = imread(landscapeTexture+"-side1.jpg");
-	flip(img, img, 0);
-	flip(img, img, 1);
-	SET_TEXTURE_PARAM(img)*/
-
 	glPushMatrix();
 	{
 		glEnable(GL_TEXTURE_2D);
@@ -340,7 +310,6 @@ void drawLandscape(){
 		glDisable(GL_TEXTURE_2D);
 	}
 	glPopMatrix();
-	// img.release();
 }
 
 void windowReshapeFunc(GLsizei w, GLsizei h){
