@@ -1,8 +1,5 @@
 #include "HousesClass.hpp"
 
-const string HousesClass::floorTexture = "../Texture/BuildingFloor2.jpg";
-const string HousesClass::grassTexture = "../Texture/grass.jpg";
-
 void HousesClass::draw(){
     drawRoof();
     drawWalls();
@@ -10,12 +7,14 @@ void HousesClass::draw(){
 	drawGrass();
 }
 
-HousesClass::HousesClass(Vertex2D pos, string houseText, string roofText){
+HousesClass::HousesClass(Vertex2D pos, GLuint houseText, GLuint roofText1,  GLuint roofText2, GLuint floor, GLuint grass){
+	floorTexture = floor;
+	grassTexture = grass;
     position = pos;
     houseTexture = houseText;
-	roofTexture = roofText;
+	roofTexture1 = roofText1;
+	roofTexture2 = roofText2;
 }
-
 
 HousesClass::~HousesClass(){
 }
@@ -23,9 +22,8 @@ HousesClass::~HousesClass(){
 void HousesClass::drawFloor(){
 	glPushMatrix();
 	glEnable(GL_TEXTURE_2D);
-	Mat img = imread(floorTexture);
-	flip(img, img, 0);
-	SET_TEXTURE_PARAM(img)
+
+	glBindTexture(GL_TEXTURE_2D, floorTexture);
 
 	glTranslated(position.x-0.5f, position.y-0.5f, 0.05f);
 	glBegin(GL_QUADS);
@@ -35,16 +33,14 @@ void HousesClass::drawFloor(){
 	    glTexCoord2f(1.0, 1.0); glVertex2f(1.0f, 0.0f);
 	glEnd();
 
-	img.release();
 	glDisable(GL_TEXTURE_2D);   
 	glPopMatrix();
 }
 
 void HousesClass::drawRoof(){
     glEnable(GL_TEXTURE_2D);
-	Mat img = imread(roofTexture);
-	flip(img, img, 0);
-	SET_TEXTURE_PARAM(img)
+
+	glBindTexture(GL_TEXTURE_2D, roofTexture1);
 
 	glPushMatrix();
 	{
@@ -65,8 +61,7 @@ void HousesClass::drawRoof(){
 	}
 	glPopMatrix();
 	
-	rotate(img, img, ROTATE_90_CLOCKWISE);
-	SET_TEXTURE_PARAM(img)
+	glBindTexture(GL_TEXTURE_2D, roofTexture2);
 
 	glPushMatrix();
 	{
@@ -83,15 +78,13 @@ void HousesClass::drawRoof(){
 		glEnd();
 	}
 	glPopMatrix();
-	img.release();
     glDisable(GL_TEXTURE_2D);
 }
 
 void HousesClass::drawWalls(){
     glEnable(GL_TEXTURE_2D);
-	Mat img = imread(houseTexture);
-	rotate(img, img, ROTATE_180);
-	SET_TEXTURE_PARAM(img)
+
+	glBindTexture(GL_TEXTURE_2D, houseTexture);
 
 	glPushMatrix();
 	{
@@ -124,16 +117,14 @@ void HousesClass::drawWalls(){
 	}
 	glPopMatrix();
 
-	img.release();
 	glDisable(GL_TEXTURE_2D);   
 }
 
 void HousesClass::drawGrass(){
 	glPushMatrix();
 	glEnable(GL_TEXTURE_2D);
-	Mat img = imread(grassTexture);
-	flip(img, img, 0);
-	SET_TEXTURE_PARAM(img)
+
+	glBindTexture(GL_TEXTURE_2D, grassTexture);
 
 	glTranslated(position.x-0.75f, position.y-0.75f, 0.025f);
 	glBegin(GL_QUADS);
@@ -144,6 +135,5 @@ void HousesClass::drawGrass(){
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);   
-	img.release();
 	glPopMatrix();
 }

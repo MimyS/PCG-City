@@ -9,7 +9,7 @@ LightClass light(pMax.x - 0.1, pMax.y - 0.1, pMax.z - 1.0);
 vector<HousesClass> houses;
 vector<BuildingsClass<false,false>> normalBuildings;
 vector<BuildingsClass<false,true>> mirrorBuildings;
-BuildingsClass<true, false> p({0.0,0.0}, 12.0f, "../Texture/BuildingWall16.jpg");
+BuildingsClass<true, false> p({0.0,0.0}, 12.0f);
 
 GLuint vecTexture[42];
 
@@ -19,16 +19,16 @@ GLfloat bdSize(){
 	return 3 + rand()%6;
 }
 
-string bdText(){
-	return "../Texture/BuildingWall" + to_string((rand()%16)+1) + ".jpg";
+GLuint bdText(){
+	return vecTexture[27 + (rand()%16)];
 }
 
-string hsText(){
-	return "../Texture/HouseWall" + to_string((rand()%9)+1) + ".jpg";
+GLuint hsText(){
+	return vecTexture[18 + (rand()%19)];
 }
 
-string rfText(){
-	return "../Texture/HouseRoof" + to_string((rand()%3)+1) + ".jpg";
+GLuint rfText(){
+	return 12 + 2*(rand()%3);
 }
 
 GLuint img2Texture(cv::Mat &mat){
@@ -48,8 +48,7 @@ GLuint img2Texture(cv::Mat &mat){
 void TextureBind(){
 	glEnable(GL_TEXTURE_2D);
 
-	string floorTexture = "../Texture/CityFloor.jpg";
-	Mat img = imread(floorTexture);
+	Mat img = imread("../Texture/CityFloor.jpg");
 	flip(img, img, 0);
 	vecTexture[0] = img2Texture(img);
 
@@ -80,12 +79,54 @@ void TextureBind(){
 	flip(img, img, 1);
 	vecTexture[6] = img2Texture(img);
 
+	img = imread("../Texture/BuildingFloor.jpg");
+	flip(img, img, 0);
+	vecTexture[7] = img2Texture(img);
+
+	img = imread("../Texture/BuildingFloor2.jpg");
+	flip(img, img, 0);
+	vecTexture[8] = img2Texture(img);
+
+	img = imread("../Texture/BuildingRoof.jpg");
+	vecTexture[9] = img2Texture(img);
+
+	img = imread("../Texture/grass.jpg");
+	flip(img, img, 0);
+	vecTexture[10] = img2Texture(img);
+
+	string base = "../Texture/HouseRoof";
+
+	auto temp = 11;
+
+	for(auto i = 1; i <= 6; i+=2){
+		img = imread(base + to_string(i) + ".jpg");
+		flip(img, img, 0);
+		vecTexture[temp++] = img2Texture(img);
+		rotate(img, img, ROTATE_90_CLOCKWISE);
+		vecTexture[temp++] = img2Texture(img);
+	}
+
+	base = "../Texture/HouseWall";
+
+	for(auto i = 1; i <= 9; i++){
+		img = imread(base + to_string(i) + ".jpg");
+		rotate(img, img, ROTATE_180);
+		vecTexture[temp++] = img2Texture(img);
+	}
+
+	base = "../Texture/BuildingWall";
+
+	for(auto i = 1; i <= 16; i++){
+		img = imread(base + to_string(i) + ".jpg");
+		rotate(img, img, ROTATE_180);
+		vecTexture[temp++] = img2Texture(img);
+	}
 
 	glDisable(GL_TEXTURE_2D);
 	img.release();
 }
 void DeleteBinds(){
-	glDeleteTextures(1, vecTexture);
+	glDeleteTextures(42, vecTexture);
 }
 
 void Init(){
@@ -93,7 +134,6 @@ void Init(){
 	houses.reserve(36);
 	normalBuildings.reserve(8);
 	mirrorBuildings.reserve(4);
-
 	TextureBind();
 
 	Vertex2D position;	
@@ -104,28 +144,33 @@ void Init(){
 			if(abs(i) != abs(j)){
 				if(i == 0){
 					if (abs(j) == 12){
-						mirrorBuildings.push_back(BuildingsClass<false, true>(position, bdSize(), bdText()));
+						mirrorBuildings.push_back(BuildingsClass<false, true>(position, bdSize(), bdText(), vecTexture[7], vecTexture[9]));
 					}else{
-						houses.push_back(HousesClass(position, hsText(), rfText()));
+						auto temp = rfText();
+						houses.push_back(HousesClass(position, hsText(), vecTexture[temp], vecTexture[temp+1], vecTexture[8], vecTexture[10]));
 					}
 				}else if(abs(i) == 12){
 					if(j == 0){
-						mirrorBuildings.push_back(BuildingsClass<false, true>(position, bdSize(), bdText()));
+						mirrorBuildings.push_back(BuildingsClass<false, true>(position, bdSize(), bdText(), vecTexture[7], vecTexture[9]));
 					}else{
-						houses.push_back(HousesClass(position, hsText(), rfText()));
-					}
+						auto temp = rfText();
+						houses.push_back(HousesClass(position, hsText(), vecTexture[temp], vecTexture[temp+1], vecTexture[8], vecTexture[10]));					}
 				}else{
-						houses.push_back(HousesClass(position, hsText(), rfText()));
+					auto temp = rfText();
+					houses.push_back(HousesClass(position, hsText(), vecTexture[temp], vecTexture[temp+1], vecTexture[8], vecTexture[10]));
 				}
 			}else{
 				if(i != 4 && i != -4){
-					normalBuildings.push_back(BuildingsClass<false,false>(position, bdSize(), bdText()));
+					normalBuildings.push_back(BuildingsClass<false,false>(position, bdSize(), bdText(), vecTexture[7], vecTexture[9]));
 				}else if(i != 0){
-					mirrorBuildings.push_back(BuildingsClass<false, true>(position, bdSize(), bdText()));
+					mirrorBuildings.push_back(BuildingsClass<false, true>(position, bdSize(), bdText(), vecTexture[7], vecTexture[9]));
 				}
 			}
 		}
 	}
+	p.setWallText(vecTexture[41]);
+	p.setTexts(vecTexture[7], vecTexture[9]);
+	
 }
 
 void drawScene(){
