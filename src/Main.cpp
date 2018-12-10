@@ -29,7 +29,7 @@ int main(int argc, char **argv){
 	glutKeyboardFunc(&keyboard);
 
 	glutMainLoop();
-
+	DeleteBinds();
 	return 0;
 
 }

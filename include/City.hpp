@@ -10,7 +10,7 @@
 /**GLOBAL**/
 extern ViewClass viewC;
 extern ControlClass control;
-
+void DeleteBinds();
 void Init();
 void drawScene();
 void drawCityFloor();
