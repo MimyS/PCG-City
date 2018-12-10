@@ -14,15 +14,15 @@ OBJ= $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
 $(ODIR)/%.o: %.cpp $(DEPS)
-	$(CXX) -c -o $@ $< $(CXXFLAGS) $(LIBS)
+	$(CXX) -c -o $@ $< $(CXXFLAGS) $(LIBS) -Wall
 
 main: $(OBJ)
-	$(CXX) $(CXXFLAGS) -o City Main.cpp $(OBJ) $(LIBS)
+	$(CXX) $(CXXFLAGS) -o City Main.cpp $(OBJ) $(LIBS) -Wall
 
 .PHONY: call
 
 call: $(OBJ)
-	$(CXX) $(CXXFLAGS) -o City Main.cpp $(OBJ) $(LIBS)
+	$(CXX) $(CXXFLAGS) -o City Main.cpp $(OBJ) $(LIBS) -Wall
 	./City
 
 .PHONY: clean

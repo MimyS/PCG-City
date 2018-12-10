@@ -10,10 +10,11 @@ void HousesClass::draw(){
 	drawGrass();
 }
 
-HousesClass::HousesClass(Vertex2D pos, GLuint houseText, GLuint roofText){
+HousesClass::HousesClass(Vertex2D pos, GLuint houseText, GLuint roofText1, GLuint roofText2){
     position = pos;
     houseTextureID = houseText;
-	roofTextureID = roofText;
+	roofTextureID1 = roofText1;
+	roofTextureID2 = roofText2;
 }
 
 
@@ -34,6 +35,7 @@ void HousesClass::drawFloor(){
 	    glTexCoord2f(1.0, 1.0); glVertex2f(1.0f, 0.0f);
 	glEnd();
 
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);   
 	glPopMatrix();
 }
@@ -41,7 +43,7 @@ void HousesClass::drawFloor(){
 void HousesClass::drawRoof(){
     glEnable(GL_TEXTURE_2D);
 
-	glBindTexture(GL_TEXTURE_2D, roofTextureID);
+	glBindTexture(GL_TEXTURE_2D, roofTextureID1);
 
 	glPushMatrix();
 	{
@@ -62,7 +64,7 @@ void HousesClass::drawRoof(){
 	}
 	glPopMatrix();
 	
-	glBindTexture(GL_TEXTURE_2D, roofTextureID+1);
+	glBindTexture(GL_TEXTURE_2D, roofTextureID2);
 
 	glPushMatrix();
 	{
@@ -79,6 +81,7 @@ void HousesClass::drawRoof(){
 		glEnd();
 	}
 	glPopMatrix();
+	glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_TEXTURE_2D);
 }
 
@@ -117,7 +120,7 @@ void HousesClass::drawWalls(){
 		glEnd();
 	}
 	glPopMatrix();
-
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);   
 }
 
@@ -134,7 +137,7 @@ void HousesClass::drawGrass(){
 	    glTexCoord2f(1.5, 1.5); glVertex2f(1.5f, 1.5f);
 	    glTexCoord2f(1.5, 0.0); glVertex2f(1.5f, 0.0f);
 	glEnd();
-
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);   
 	glPopMatrix();
 }

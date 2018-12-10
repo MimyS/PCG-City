@@ -11,6 +11,17 @@ vector<BuildingsClass<false,false>> normalBuildings;
 vector<BuildingsClass<false,true>> mirrorBuildings;
 BuildingsClass<true, false> p({0.0,0.0}, 12.0f, 42);
 
+struct TextureIDs{
+	GLuint skyboxDown, skyboxUp, skyboxSide1, skyboxSide2, skyboxSide3, skyboxSide4;
+	GLuint cityFloor, buildFloor, houseFloor, buildRoof, grass;
+};
+
+TextureIDs texID;
+
+GLuint houseRoofTx[6];
+GLuint houseWallTx[9];
+GLuint buildWallTx[16];
+
 using namespace std;
 
 GLfloat bdSize(){
@@ -18,93 +29,89 @@ GLfloat bdSize(){
 }
 
 GLuint bdText(){
-	return 27 + (rand()%16);
+	return buildWallTx[(rand()%16)];
 }
 
 GLuint hsText(){
-	return 18 + (rand()%9);
+	return houseWallTx[(rand()%9)];
 }
 
 GLuint rfText(){
-	return 12 + 2*(rand()%3);
+	return 2*(rand()%3);
 }
 
 void Binds(){
+	
 	string base = "../Texture/skybox3";
 	Mat img = imread(base+"-down.jpg");
 	flip(img, img, 0);
-	BIND_TEX(1, img)
+	texID.skyboxDown = bind_tex(&texID.skyboxDown, img);
 
 	img = imread(base+"-up.jpg");
 	flip(img, img, 0);
-	BIND_TEX(2, img)
+	texID.skyboxUp = bind_tex(&texID.skyboxUp, img);
 
 	img = imread(base+"-side4.jpg");
 	flip(img, img, 0);
 	flip(img, img, 1);
-	BIND_TEX(3, img)
+	texID.skyboxSide4 = bind_tex(&texID.skyboxSide4, img);
 
 	img = imread(base+"-side3.jpg");
 	flip(img, img, 0);
-	BIND_TEX(4, img)
+	texID.skyboxSide3 = bind_tex(&texID.skyboxSide3, img);
 
 	img = imread(base+"-side2.jpg");
 	flip(img, img, 0);
-	BIND_TEX(5, img)
+	texID.skyboxSide2 = bind_tex(&texID.skyboxSide2, img);
 
 	img = imread(base+"-side1.jpg");
 	flip(img, img, 0);
 	flip(img, img, 1);
-	BIND_TEX(6, img)
+	texID.skyboxSide1 = bind_tex(&texID.skyboxSide1, img);
 
 	img = imread("../Texture/CityFloor.jpg");
 	flip(img, img, 0);
-	BIND_TEX(7, img)
-	
+	texID.cityFloor = bind_tex(&texID.cityFloor, img);
+
 	img = imread("../Texture/BuildingFloor.jpg");
 	flip(img, img, 0);
-	BIND_TEX(8, img)
+	texID.buildFloor = bind_tex(&texID.buildFloor, img);
 
 	img = imread("../Texture/BuildingFloor2.jpg");
 	flip(img, img, 0);
-	BIND_TEX(9, img)
+	texID.houseFloor = bind_tex(&texID.houseFloor, img);
 
 	img = imread("../Texture/BuildingRoof.jpg");
-	BIND_TEX(10, img)
+	texID.buildRoof = bind_tex(&texID.buildRoof, img);
 
 	img = imread("../Texture/grass.jpg");
 	flip(img, img, 0);
-	BIND_TEX(11, img)
-
-	GLuint ID = 12;
+	texID.grass = bind_tex(&texID.grass, img);
 
 	base = "../Texture/HouseRoof";
 
-	for(char i = 1; i <= 3; i++){
+	for(auto i = 1; i <= 6; i+=2){
 		img = imread(base + to_string(i) + ".jpg");
 		flip(img, img, 0);
-		BIND_TEX(ID, img)
+		houseRoofTx[i] = bind_tex(&houseRoofTx[i], img);
 		rotate(img, img, ROTATE_90_CLOCKWISE);
-		BIND_TEX(ID+1, img)
-		ID+=2;
+		houseRoofTx[i+1] = bind_tex(&houseRoofTx[i+1], img);
 	}
-	
+
 	base = "../Texture/HouseWall";
 
-	for(char i = 1; i <= 9; i++){
+	for(auto i = 1; i <= 9; i++){
 		img = imread(base + to_string(i) + ".jpg");
 		rotate(img, img, ROTATE_180);
-		BIND_TEX(ID, img)
-		ID++;
+		houseWallTx[i] = bind_tex(&houseWallTx[i], img);
 	}
 
 	base = "../Texture/BuildingWall";
-	
-	for(char i = 1; i <= 16; i++){
+
+	for(auto i = 1; i <= 16; i++){
 		img = imread(base + to_string(i) + ".jpg");
 		rotate(img, img, ROTATE_180);
-		BIND_TEX(ID, img)
-		ID++;
+		buildWallTx[i] = bind_tex(&buildWallTx[i], img);
 	}
 
 	img.release();
@@ -112,17 +119,20 @@ void Binds(){
 
 void Init(){
 	srand (time(NULL));
-	houses.reserve(36);
+	houses.reserve(23);
 	normalBuildings.reserve(8);
 	mirrorBuildings.reserve(4);
 
-	Vertex2D position;	
+	Vertex2D position;
 
-	for(char i = -14; i <= 14; i+2){
-		for(char j = -14 ; j <= 14; j+2){
+	Binds();
+
+	for(char i = -12; i <= 12; i+=2){
+		for(char j = -12 ; j <= 12; j+=2){
 			position = {GLfloat(i), GLfloat(j)};
-			if(abs(i) != abs(j)){
-				houses.push_back(HousesClass(position, hsText(), rfText()));
+			if(abs(i) != abs(j) && (i == 0 && abs(j) == 12) && (j == 0 && abs(i) == 12)){
+				int temp = rfText();
+				houses.push_back(HousesClass(position, hsText(), houseRoofTx[temp], houseRoofTx[temp+1]));
 			}else{
 				if(i != 2 && i != -2){
 					normalBuildings.push_back(BuildingsClass<false,false>(position, bdSize(), bdText()));
@@ -132,8 +142,6 @@ void Init(){
 			}
 		}
 	}
-
-	Binds();
 }
 
 void drawScene(){
@@ -171,7 +179,7 @@ void drawScene(){
 void drawCityFloor(){
 	glPushMatrix();
 
-	glBindTexture(GL_TEXTURE_2D, 7);
+	glBindTexture(GL_TEXTURE_2D, texID.cityFloor);
 
 	glEnable(GL_TEXTURE_2D);
 	glBegin(GL_QUADS);
@@ -181,12 +189,13 @@ void drawCityFloor(){
 	    glTexCoord2f(10.0, 10.0); glVertex2d(10.0, 10.0);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glPopMatrix();
 }
 
 void drawLandscape(){
 
-	glBindTexture(GL_TEXTURE_2D, 1);
+	glBindTexture(GL_TEXTURE_2D, texID.skyboxDown);
 
 	glPushMatrix();
 	{
@@ -201,7 +210,7 @@ void drawLandscape(){
 	}
 	glPopMatrix();
 
-	glBindTexture(GL_TEXTURE_2D, 2);
+	glBindTexture(GL_TEXTURE_2D, texID.skyboxUp);
 
 	glPushMatrix();
 	{
@@ -216,7 +225,7 @@ void drawLandscape(){
 	}
 	glPopMatrix();
 
-	glBindTexture(GL_TEXTURE_2D, 3);
+	glBindTexture(GL_TEXTURE_2D, texID.skyboxSide4);
 
 	glPushMatrix();
 	{
@@ -231,7 +240,7 @@ void drawLandscape(){
 	}
 	glPopMatrix();
 
-	glBindTexture(GL_TEXTURE_2D, 4);
+	glBindTexture(GL_TEXTURE_2D, texID.skyboxSide3);
 
 	glPushMatrix();
 	{
@@ -246,7 +255,7 @@ void drawLandscape(){
 	}
 	glPopMatrix();
 
-	glBindTexture(GL_TEXTURE_2D, 5);
+	glBindTexture(GL_TEXTURE_2D, texID.skyboxSide2);
 
 	glPushMatrix();
 	{
@@ -261,7 +270,7 @@ void drawLandscape(){
 	}
 	glPopMatrix();
 
-	glBindTexture(GL_TEXTURE_2D, 6);
+	glBindTexture(GL_TEXTURE_2D, texID.skyboxSide1);
 
 	glPushMatrix();
 	{
@@ -275,7 +284,7 @@ void drawLandscape(){
 		glDisable(GL_TEXTURE_2D);
 	}
 	glPopMatrix();
-
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void windowReshapeFunc(GLsizei w, GLsizei h){

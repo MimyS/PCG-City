@@ -5,6 +5,8 @@ using namespace std;
 
 int main(int argc, char **argv){
 	glutInit(&argc, argv);
+	
+	Init();
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 
@@ -16,8 +18,6 @@ int main(int argc, char **argv){
 	glClearDepth(1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
-
-	Init();
 
 	glutIdleFunc(animate);
 

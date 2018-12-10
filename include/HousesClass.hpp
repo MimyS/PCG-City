@@ -6,7 +6,8 @@ class HousesClass{
 	Vertex2D position;
 	const static GLuint floorTextureID;
 	const static GLuint grassTextureID;
-	GLuint roofTextureID;
+	GLuint roofTextureID1;
+	GLuint roofTextureID2;
 	GLuint houseTextureID;
 	void drawFloor();
 	void drawRoof();
@@ -14,7 +15,7 @@ class HousesClass{
 	void drawGrass();
 public:
 	void draw();
-	HousesClass(Vertex2D, GLuint, GLuint);
+	HousesClass(Vertex2D, GLuint, GLuint, GLuint);
 	~HousesClass();
 };
 

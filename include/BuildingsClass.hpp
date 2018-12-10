@@ -53,7 +53,7 @@ void BuildingsClass<isTransparent, isMirror>::drawFloor(LightClass & light){
 	    glTexCoord2f(1.0, 1.0); glVertex2f(1.0f, 0.0f);
 	glEnd();
 	glPopMatrix();
-
+	glBindTexture(GL_TEXTURE_2D, 0);
 	if(isTransparent||isMirror){
 		light.basicMaterial();
 	}
@@ -81,7 +81,7 @@ void BuildingsClass<isTransparent, isMirror>::drawRoof(LightClass & light){
 	    glTexCoord2f(1.0, 1.0); glVertex2f(1.0f, 0.0f);
 	glEnd();
 	glPopMatrix();
-
+	glBindTexture(GL_TEXTURE_2D, 0);
 	if(isTransparent||isMirror){
 		light.basicMaterial();
 	}
@@ -129,7 +129,7 @@ void BuildingsClass<isTransparent, isMirror>::drawWalls(LightClass & light){
 		glEnd();
 	}
 	glPopMatrix();
-	
+	glBindTexture(GL_TEXTURE_2D, 0);
 	if(isTransparent||isMirror){
 		light.basicMaterial();
 	}

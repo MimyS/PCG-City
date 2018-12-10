@@ -52,8 +52,6 @@ void LightClass::lighting() {
 	//GL_LIGHT0, GL_LIGHT1, ... , GL_LIGHT7
 	GLfloat white[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	GLfloat black[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	GLfloat half[] =  { 0.5f, 0.5f, 0.5f, 1.0f };
-	GLfloat quarter[] = {0.25f, 0.25f, 0.25f, 1.0f};
 
 	/* Cria uma fonte de luz puntual */
 	glLightfv(GL_LIGHT0, GL_POSITION, position);
