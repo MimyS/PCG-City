@@ -84,7 +84,5 @@ GLuint bind_tex(GLuint * textureID, Mat & img){
 	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, img.ptr());;
 	glBindTexture(GL_TEXTURE_2D, 0);
-	cout << textureID << " : " << *textureID << endl;
-
 	return *textureID;
 }

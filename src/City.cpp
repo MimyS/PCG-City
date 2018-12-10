@@ -6,15 +6,11 @@ Vertex3D pMax = { 25, 25, 50};
 ViewClass viewC(pMin, pMax);
 ControlClass control;
 LightClass light(pMax.x - 0.1, pMax.y - 0.1, pMax.z - 1.0);
+
 vector<HousesClass> houses;
 vector<BuildingsClass<false,false>> normalBuildings;
 vector<BuildingsClass<false,true>> mirrorBuildings;
-BuildingsClass<true, false> p({0.0,0.0}, 12.0f, 42);
-
-struct TextureIDs{
-	GLuint skyboxDown, skyboxUp, skyboxSide1, skyboxSide2, skyboxSide3, skyboxSide4;
-	GLuint cityFloor, buildFloor, houseFloor, buildRoof, grass;
-};
+BuildingsClass<true, false> p({0.0,0.0}, 12.0f);
 
 TextureIDs texID;
 
@@ -142,6 +138,7 @@ void Init(){
 			}
 		}
 	}
+	p.setWallText(buildWallTx[16]);
 }
 
 void drawScene(){

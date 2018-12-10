@@ -14,6 +14,8 @@ class BuildingsClass{
 
 public:
 	void draw(LightClass &);
+	BuildingsClass(Vertex2D, GLfloat);
+	void setWallText(GLuint ID){ wallTextureID = ID;};
 	BuildingsClass(Vertex2D, GLfloat, GLuint);
 	~BuildingsClass();
 };
@@ -145,4 +147,10 @@ BuildingsClass<isTransparent, isMirror>::BuildingsClass(Vertex2D pos, GLfloat he
 
 template<bool isTransparent, bool isMirror>
 BuildingsClass<isTransparent, isMirror>::~BuildingsClass(){
+}
+
+template<bool isTransparent, bool isMirror>
+BuildingsClass<isTransparent, isMirror>::BuildingsClass(Vertex2D pos, GLfloat height){
+	position = pos;
+	size = height;
 }
