@@ -35,6 +35,7 @@ void HousesClass::drawFloor(){
 	    glTexCoord2f(1.0, 1.0); glVertex2f(1.0f, 0.0f);
 	glEnd();
 
+	img.release();
 	glDisable(GL_TEXTURE_2D);   
 	glPopMatrix();
 }
@@ -82,6 +83,7 @@ void HousesClass::drawRoof(){
 		glEnd();
 	}
 	glPopMatrix();
+	img.release();
     glDisable(GL_TEXTURE_2D);
 }
 
@@ -122,6 +124,7 @@ void HousesClass::drawWalls(){
 	}
 	glPopMatrix();
 
+	img.release();
 	glDisable(GL_TEXTURE_2D);   
 }
 
@@ -141,5 +144,6 @@ void HousesClass::drawGrass(){
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);   
+	img.release();
 	glPopMatrix();
 }

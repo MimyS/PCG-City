@@ -58,6 +58,8 @@ void BuildingsClass<isTransparent, isMirror>::drawFloor(LightClass & light){
 	if(isTransparent||isMirror){
 		light.basicMaterial();
 	}
+	img.release();
+
 	glDisable(GL_TEXTURE_2D);   
 }
 
@@ -86,6 +88,7 @@ void BuildingsClass<isTransparent, isMirror>::drawRoof(LightClass & light){
 	if(isTransparent||isMirror){
 		light.basicMaterial();
 	}
+	img.release();
 	glDisable(GL_TEXTURE_2D);   
 }
 
@@ -135,6 +138,7 @@ void BuildingsClass<isTransparent, isMirror>::drawWalls(LightClass & light){
 	if(isTransparent||isMirror){
 		light.basicMaterial();
 	}
+	img.release();
 	glDisable(GL_TEXTURE_2D);   
 }
 

@@ -37,13 +37,27 @@ void Init(){
 
 	Vertex2D position;	
 
-	for(char i = -14; i <= 14; i+2){
-		for(char j = -14 ; j <= 14; j+2){
+	for(char i = -12; i <= 12; i+=4){
+		for(char j = -12 ; j <= 12; j+=4){
 			position = {i, j};
 			if(abs(i) != abs(j)){
-				houses.push_back(HousesClass(position, hsText(), rfText()));
+				if(i == 0){
+					if (abs(j) == 12){
+						mirrorBuildings.push_back(BuildingsClass<false, true>(position, bdSize(), bdText()));
+					}else{
+						houses.push_back(HousesClass(position, hsText(), rfText()));
+					}
+				}else if(abs(i) == 12){
+					if(j == 0){
+						mirrorBuildings.push_back(BuildingsClass<false, true>(position, bdSize(), bdText()));
+					}else{
+						houses.push_back(HousesClass(position, hsText(), rfText()));
+					}
+				}else{
+						houses.push_back(HousesClass(position, hsText(), rfText()));
+				}
 			}else{
-				if(i != 2 && i != -2){
+				if(i != 4 && i != -4){
 					normalBuildings.push_back(BuildingsClass<false,false>(position, bdSize(), bdText()));
 				}else if(i != 0){
 					mirrorBuildings.push_back(BuildingsClass<false, true>(position, bdSize(), bdText()));
@@ -95,13 +109,14 @@ void drawCityFloor(){
 
 	glEnable(GL_TEXTURE_2D);
 	glBegin(GL_QUADS);
-	    glTexCoord2f(0.0, 10.0); glVertex2d(-10.0, 10.0);
-	    glTexCoord2f(0.0, 0.0); glVertex2d(-10.0, -10.0);
-	    glTexCoord2f(10.0, 0.0); glVertex2d(10.0, -10.0);
-	    glTexCoord2f(10.0, 10.0); glVertex2d(10.0, 10.0);
+	    glTexCoord2f(0.0, 14.0); glVertex2d(-14.0, 14.0);
+	    glTexCoord2f(0.0, 0.0); glVertex2d(-14.0, -14.0);
+	    glTexCoord2f(14.0, 0.0); glVertex2d(14.0, -14.0);
+	    glTexCoord2f(14.0, 14.0); glVertex2d(14.0, 14.0);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
+	img.release();
 }
 
 void drawLandscape(){
@@ -209,7 +224,7 @@ void drawLandscape(){
 		glDisable(GL_TEXTURE_2D);
 	}
 	glPopMatrix();
-
+	img.release();
 }
 
 void windowReshapeFunc(GLsizei w, GLsizei h){
