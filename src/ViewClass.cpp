@@ -131,14 +131,14 @@ void ViewClass::ResetCamera(){
 }
 
 void ViewClass::ResetAll(){
-	cameraX = 6;
-	cameraY = 6;
-	cameraZ = 5;
-	centerX = 6;
-	centerY = 6;
-	centerZ = 0;
-	viewUpX = 1;
-	viewUpY = 0;
+	cameraX = 0;
+	cameraY = 0;
+	cameraZ = 15;
+	centerX = 0;
+	centerY = 0;
+	centerZ = 3;
+	viewUpX = 0;
+	viewUpY = 1;
 	viewUpZ = 0;
 }
 

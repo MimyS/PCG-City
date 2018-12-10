@@ -43,7 +43,7 @@ GLuint img2Texture(cv::Mat &mat){
  	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
  
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, mat.cols, mat.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, mat.ptr());
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mat.cols, mat.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, mat.ptr());
 	return textureID;
 }
 
@@ -163,7 +163,7 @@ void Init(){
 					houses.push_back(HousesClass(position, hsText(), vecTexture[temp], vecTexture[temp+1], vecTexture[8], vecTexture[10]));
 				}
 			}else{
-				if(i != 4 && i != -4){
+				if(i != 4 && i != -4 && i != 0){
 					normalBuildings.push_back(BuildingsClass<false,false>(position, bdSize(), bdText(), vecTexture[7], vecTexture[9]));
 				}else if(i != 0){
 					mirrorBuildings.push_back(BuildingsClass<false, true>(position, bdSize(), bdText(), vecTexture[7], vecTexture[9]));

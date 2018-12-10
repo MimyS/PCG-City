@@ -20,6 +20,7 @@ LightClass::~LightClass(){
 
 void LightClass::basicMaterial(){
 	glDisable(GL_COLOR_MATERIAL);
+	glDisable(GL_BLEND);
 	GLfloat specular[] = { 0.0f, 0.0f, 0.0f, 0 };
 	GLfloat ambient[] = { 0.2, 0.2, 0.2, 0 };
 	GLfloat diffuse[] = { 0.4f, 0.4f, 0.4f, 0 };
@@ -33,7 +34,9 @@ void LightClass::basicMaterial(){
 
 void LightClass::transparentMaterial(){
 	glEnable(GL_COLOR_MATERIAL);
-	glColor4d(1.0f, 1.0f, 1.0f, 0.5f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glColor4d(1.0f, 1.0f, 1.0f, 0.7f);
 }
 
 void LightClass::reflectiveMaterial(){
